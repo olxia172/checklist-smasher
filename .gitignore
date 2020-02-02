@@ -26,7 +26,9 @@ backend/tmp/
 frontend/node_modules/
 backend/log/development.log
 frontend/android/.gradle/
-*.java
+*.class
+*.apk
+*.ab
 frontend/android/app/build/
 frontend/package-lock.json
 backend/.generators
