@@ -1,6 +1,4 @@
-require 'devise/mailer'
-
-enjoyer = Enjoyer.create!(name: 'Ola', email: 'ola@test.pl', password: 'password', password_confirmation: "password")
+enjoyer = Enjoyer.create!(name: 'Ola', email: 'ola@test.pl')
 
 checklist1 = Checklist.create!(name: 'Checklist1', enjoyer_id: enjoyer.id)
 checklist2 = Checklist.create!(name: 'Checklist2', enjoyer_id: enjoyer.id)
