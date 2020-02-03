@@ -61,6 +61,7 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.1)
+    coderay (1.1.2)
     concurrent-ruby (1.1.5)
     crass (1.0.6)
     erubi (1.9.0)
@@ -98,6 +99,11 @@ GEM
     parser (2.7.0.2)
       ast (~> 2.4.0)
     pg (1.2.2)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     puma (4.3.1)
       nio4r (~> 2.0)
     rack (2.1.1)
@@ -174,6 +180,8 @@ DEPENDENCIES
   graphql (~> 1.9)
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
+  pry
+  pry-rails
   puma (~> 4.1)
   rails (~> 6.0.2, >= 6.0.2.1)
   rubocop
