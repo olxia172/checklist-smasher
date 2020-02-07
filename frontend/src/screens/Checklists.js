@@ -1,5 +1,6 @@
 import React from 'react'
 import {View, Text, Button} from 'react-native'
+import ChecklistStore from '../stores/ChecklistsStore'
 
 function Checklists({ navigation }) {
   return (
