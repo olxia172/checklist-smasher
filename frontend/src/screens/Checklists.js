@@ -1,5 +1,12 @@
 import React from 'react'
 import {View, Text, Button} from 'react-native'
+import { useStoreData } from "../hooks/useStoreData"
+
+function useChecklists() {
+  return useStoreData(({ checklistsStore }) => ({
+    checklistsCount: checklistsStore.checklistsCount,
+  }))
+}
 
 function Checklists({ navigation }) {
   return (
