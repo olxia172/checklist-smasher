@@ -4,15 +4,15 @@ import { createStackNavigator } from '@react-navigation/stack'
 import HomeScreen from './src/screens/HomeScreen'
 import Checklists from './src/screens/Checklists'
 import SingleChecklist from './src/screens/SingleChecklist'
-import ApolloClient from 'apollo-boost'
-import { ApolloProvider } from '@apollo/react-hooks'
+import { StoreProvider } from './src/stores/storesContext'
+import RootStore from "./src/stores/RootStore"
 
 const Stack = createStackNavigator()
-const client = new ApolloClient()
+
 
 function App() {
   return (
-    <ApolloProvider client={client}>
+    <StoreProvider store={new RootStore()}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'ChecklistSmasher' }} />
@@ -23,7 +23,7 @@ function App() {
             options={({ route }) => ({ title: route.params.name })} />
         </Stack.Navigator>
       </NavigationContainer>
-    </ApolloProvider>
+    </StoreProvider>
   )
 }
 
