@@ -4,22 +4,22 @@ import { useStoreData } from "../hooks/useStoreData"
 
 function useChecklists() {
   return useStoreData(({ checklistsStore }) => ({
-    checklistsCount: checklistsStore.checklistsCount,
+    checklists: checklistsStore.checklists,
   }))
 }
 
 function Checklists({ navigation }) {
+  const { checklists } = useChecklists()
+
   return (
     <View>
       <Text>Checklists Screen</Text>
-      <Button title="Checklist1" onPress={() => navigation.navigate('SingleChecklist', {
-        name: 'Test checklist 1',
-        itemsCount: 2,
-      })} />
-      <Button title="Checklist2" onPress={() => navigation.navigate('SingleChecklist', {
-        name: 'Test checklist 2',
-        itemsCount: 7,
-      })} />
+      {checklists.map(checklist => (
+        <Button key={checklist.name} title={checklist.name} onPress={() => navigation.navigate('SingleChecklist', {
+          name: checklist.name,
+          itemsCount: 2,
+        })} />
+      ))}
       <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   )
