@@ -1,21 +1,19 @@
-import React, { useEffect } from "react"
+import React, { useCallback } from "react"
 import { View, Text, Button } from "react-native"
-import { observer } from "mobx-react"
-import { useStores } from "../hooks/useStores"
+import { useStoreData } from "../hooks/useStoreData"
+
+function useChecklists() {
+  return useStoreData(({ checklistsStore }) => ({
+    checklistsCount: checklistsStore.checklistsCount,
+  }))
+}
 
 function HomeScreen({ navigation }) {
-  const { checklistsStore } = useStores()
-
-  useEffect(() => {
-    checklistsStore.getChecklists()
-  })
-
-  const { checklists } = checklistsStore
-  const checks = checklists && JSON.stringify(checklists, null, 2)
+  const { checklistsCount } = useChecklists()
 
   return (
     <View>
-      <Text>Checks: {checks}</Text>
+      <Text>You have {checklistsCount} checklists! Check them out!</Text>
       <Button
         title="Go to checklists"
         onPress={() => navigation.navigate("Checklists")}
@@ -24,4 +22,4 @@ function HomeScreen({ navigation }) {
   )
 }
 
-export default observer(HomeScreen)
+export default HomeScreen
