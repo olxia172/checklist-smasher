@@ -10,7 +10,7 @@ function useChecklists() {
 
 function Checklists({ navigation }) {
   const { checklists } = useChecklists()
-
+  console.log(checklists[0].items)
   return (
     <View>
       <Text>Checklists Screen</Text>

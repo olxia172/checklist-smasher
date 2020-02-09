@@ -27,6 +27,11 @@ export default class ChecklistsStore {
         checklists {
           id
           name
+          items {
+            id
+            name
+            done
+          }
         }
       }
       `,
