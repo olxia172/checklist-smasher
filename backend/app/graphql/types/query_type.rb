@@ -9,7 +9,7 @@ module Types
           description: "Returns a list of checklists"
 
     def checklists
-      Checklist.all
+      Checklist.all.includes(:items)
     end
   end
 end
