@@ -18,7 +18,6 @@ export default class ChecklistsStore {
 
   @action.bound
   getChecklists() {
-    console.log("here")
     this.isLoading = true
 
     const operation = {
