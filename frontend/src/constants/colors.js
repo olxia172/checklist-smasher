@@ -8,8 +8,12 @@ export const basicColors = {
 }
 
 export const checklistsColors = {
-  defaultColor: '#4DB6AC',
-  pink: '#F06292',
-  green: '#81C784',
-  yellow: '#FFD54F'
+  defaultColorLight: '#B2DFDB',
+  defaultColorDark: '#26A69A',
+  pinkLight: '#F8BBD0',
+  pinkDark: '#EC407A',
+  greenLight: '#C8E6C9',
+  greenDark: '#66BB6A',
+  yellowLight: '#FFECB3',
+  yellowDark: '#FFCA28'
 }

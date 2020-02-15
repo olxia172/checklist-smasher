@@ -1,6 +1,6 @@
 import React from 'react'
 import { toJS } from "mobx";
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import { useStoreData } from "../hooks/useStoreData"
 import ChecklistContainer from '../components/ChecklistContainer'
 
