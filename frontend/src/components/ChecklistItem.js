@@ -1,7 +1,11 @@
 import React from 'react'
-import { Text } from 'react-native'
 import { Checkbox } from 'react-native-paper'
 import { useStoreData } from "../hooks/useStoreData"
+import styled from "styled-components";
+
+const StyledItemName = styled.Text`
+  text-decoration: ${props => props.done ? 'line-through' : 'none'}
+`;
 
 function useChecklists() {
   return useStoreData(({ itemStore }) => ({
@@ -22,7 +26,7 @@ function ChecklistItem({ name, done, id }) {
         status={Boolean(done) ? 'checked' : 'unchecked'}
         onPress={() => toggleDone()}
       />
-      <Text>{name}</Text>
+      <StyledItemName done={Boolean(done)} >{name}</StyledItemName>
     </>
   )
 };

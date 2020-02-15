@@ -1,6 +1,6 @@
 import React from 'react'
 import { toJS } from "mobx";
-import { View } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import { useStoreData } from "../hooks/useStoreData"
 import ChecklistContainer from '../components/ChecklistContainer'
 
@@ -19,11 +19,13 @@ function ChecklistsScreen({ navigation }) {
   }));
 
   return (
-    <View>
+    <ScrollView>
       {data && data.map(checklist => (
-        <ChecklistContainer key={checklist.name} {...checklist} />
+        <View key={checklist.name}>
+          <ChecklistContainer {...checklist} />
+        </View>
       ))}
-    </View>
+    </ScrollView>
   )
 }
 
