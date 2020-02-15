@@ -10,7 +10,7 @@ function useChecklists() {
   }))
 }
 
-function Checklists({ navigation }) {
+function ChecklistsScreen({ navigation }) {
   const { checklists } = useChecklists();
 
   const data = checklists && toJS(checklists).map(({ name, items }) => ({
@@ -20,7 +20,6 @@ function Checklists({ navigation }) {
 
   return (
     <View>
-      <Text>Checklists Screen</Text>
       {data && data.map(checklist => (
         <ChecklistContainer key={checklist.name} {...checklist} />
       ))}
@@ -28,4 +27,4 @@ function Checklists({ navigation }) {
   )
 }
 
-export default Checklists
+export default ChecklistsScreen
