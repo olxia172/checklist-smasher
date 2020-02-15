@@ -1,6 +1,8 @@
 import React from 'react'
-import {View, Text, Button} from 'react-native'
+import { toJS } from "mobx";
+import { View, Text, FlatList } from 'react-native'
 import { useStoreData } from "../hooks/useStoreData"
+import ChecklistItem from '../components/ChecklistItem'
 
 function useChecklists() {
   return useStoreData(({ checklistsStore }) => ({
@@ -10,17 +12,24 @@ function useChecklists() {
 
 function Checklists({ navigation }) {
   const { checklists } = useChecklists()
-  console.log(checklists[0].items)
+
+  const data = checklists && toJS(checklists).map(({ name, items }) => ({
+    name,
+    data: items,
+  }))
+
   return (
     <View>
       <Text>Checklists Screen</Text>
-      {checklists.map(checklist => (
-        <Button key={checklist.name} title={checklist.name} onPress={() => navigation.navigate('SingleChecklist', {
-          name: checklist.name,
-          itemsCount: 2,
-        })} />
+      {data && data.map(checklist => (
+        <View key={checklist.name}>
+          <Text>{checklist.name}</Text>
+          <FlatList
+            data={checklist.data}
+            renderItem={({ item }) => <ChecklistItem key={item.name} {...item} />}
+          />
+        </View>
       ))}
-      <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   )
 }

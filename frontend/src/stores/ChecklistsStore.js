@@ -19,7 +19,6 @@ export default class ChecklistsStore {
   @action.bound
   getChecklists() {
     this.isLoading = true
-
     const operation = {
       query: gql`
       {
