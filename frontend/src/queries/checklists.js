@@ -2,16 +2,38 @@ import gql from 'graphql-tag'
 
 export const getChecklists = {
   query: gql`
-      {
-        checklists {
+    query {
+      checklists {
+        id
+        name
+        items {
           id
           name
-          items {
-            id
+          done
+        }
+      }
+    }
+  `,
+};
+
+export function toggleDoneItem(itemId, done) {
+  return ({
+    query: gql`
+      mutation ToggleDoneItemMutation($input: ToggleDoneItemMutationInput!) {
+        toggleDoneItem(input: $input) {
+          item {
             name
+            id
             done
           }
         }
       }
-      `,
-};
+    `,
+    variables: {
+      input: {
+        id: Number(itemId),
+        done: done,
+      }
+    },
+  })
+}

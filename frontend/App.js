@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
@@ -11,7 +11,7 @@ import { basicColors } from './src/constants/colors'
 const Stack = createStackNavigator();
 
 function App() {
-  const store = new RootStore();
+  const store = useMemo(() => (new RootStore()), []);
 
   useEffect(() => {
     store.setup()

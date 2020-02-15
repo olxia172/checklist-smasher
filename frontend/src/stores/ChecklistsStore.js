@@ -2,7 +2,7 @@ import { observable, action } from 'mobx'
 import { execute, makePromise } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
 import fetch from 'node-fetch'
-import { getChecklists } from '../queries/checklists'
+import { getChecklists, toggleDoneItem } from '../queries/checklists'
 
 const link = new HttpLink({ uri: 'http://localhost:3001/graphql', fetch })
 
@@ -16,7 +16,7 @@ export default class ChecklistsStore {
   @observable checklistsCount = 0;
   @observable errors = null;
 
-  @action.bound
+  @action
   getChecklists() {
     this.isLoading = true;
     makePromise(execute(link, getChecklists))

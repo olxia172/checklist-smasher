@@ -3,7 +3,7 @@ import RootStore from "./RootStore"
 
 export const storesContext = React.createContext(RootStore)
 
-export const StoreProvider = ({ children, store }) => {
+export function StoreProvider({ children, store }) {
   return (
     <storesContext.Provider value={store}>
       {children}
