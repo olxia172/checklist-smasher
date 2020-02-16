@@ -3,6 +3,7 @@ import { execute, makePromise } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
 import fetch from 'node-fetch'
 import { getChecklists } from '../api/queries/checklists'
+import createChecklist from '../api/mutations/createChecklist'
 
 const link = new HttpLink({ uri: 'http://localhost:3001/graphql', fetch })
 
@@ -16,7 +17,7 @@ export default class ChecklistsStore {
   @observable checklistsCount = 0;
   @observable errors = null;
 
-  @action
+  @action.bound
   getChecklists() {
     this.isLoading = true;
     makePromise(execute(link, getChecklists))
@@ -25,6 +26,14 @@ export default class ChecklistsStore {
         this.checklistsCount = this.checklists.length;
         this.isLoading = false
       })
+      .catch(error => this.errors = error)
+  }
+  
+  @action.bound
+  createChecklist(checklistName) {
+    makePromise(execute(link, createChecklist(checklistName)))
+      .then(() => this.root.refresh()
+      )
       .catch(error => this.errors = error)
   }
 }

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/native'
-import {number, oneOfType, string} from 'prop-types'
+import { number, oneOfType, string } from 'prop-types'
 import { basicColors, checklistsColors } from '../constants/colors'
-import { Modal, Portal, Text, Button, TextInput } from 'react-native-paper'
+import { Modal, Portal, Button, TextInput } from 'react-native-paper'
 import useDialogModal from '../hooks/useDialogModal'
 import { useStoreData } from '../hooks/useStoreData'
 
