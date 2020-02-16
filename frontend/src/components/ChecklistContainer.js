@@ -25,13 +25,13 @@ const StyledSeparator = styled.View`
   margin-bottom: 5px;
 `;
 
-const ChecklistContainer = ({ name, data }) => (
+const ChecklistContainer = ({ name, id, items }) => (
   <StyledView key={name}>
-    <ChecklistHeader name={name} />
+    <ChecklistHeader name={name} checklistId={id} />
     <StyledList
-      data={data}
+      data={items}
       renderItem={({ item }) => <ChecklistItem key={item.name} {...item} />}
-      ItemSeparatorComponent={(props) => (<StyledSeparator />)}
+      ItemSeparatorComponent={() => (<StyledSeparator />)}
     />
   </StyledView>
 );

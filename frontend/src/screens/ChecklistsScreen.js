@@ -13,10 +13,7 @@ function useChecklists() {
 function ChecklistsScreen({ navigation }) {
   const { checklists } = useChecklists();
 
-  const data = checklists && toJS(checklists).map(({ name, items }) => ({
-    name,
-    data: items,
-  }));
+  const data = checklists && toJS(checklists)
 
   return (
     <ScrollView>
