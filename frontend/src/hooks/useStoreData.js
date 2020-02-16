@@ -4,7 +4,6 @@ import { storesContext} from "../stores/storesContext"
 
 export function useStoreData(selector) {
   const store = React.useContext(storesContext)
-  console.log(store)
 
   if (!store) {
     throw new Error('Could not find store!')
