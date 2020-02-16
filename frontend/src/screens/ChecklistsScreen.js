@@ -1,7 +1,7 @@
 import React from 'react'
-import { toJS } from "mobx";
-import { View, ScrollView } from 'react-native'
-import { useStoreData } from "../hooks/useStoreData"
+import { toJS } from 'mobx';
+import { View, FlatList } from 'react-native'
+import { useStoreData } from '../hooks/useStoreData'
 import ChecklistContainer from '../components/ChecklistContainer'
 
 function useChecklists() {
@@ -13,16 +13,19 @@ function useChecklists() {
 function ChecklistsScreen({ navigation }) {
   const { checklists } = useChecklists();
 
-  const data = checklists && toJS(checklists)
+  const data = checklists && toJS(checklists);
 
   return (
-    <ScrollView>
-      {data && data.map(checklist => (
-        <View key={checklist.name}>
-          <ChecklistContainer {...checklist} />
+    <FlatList
+      data={data}
+      renderItem={({ item }) =>
+        <View key={item.name}>
+          <ChecklistContainer {...item} />
         </View>
-      ))}
-    </ScrollView>
+      }
+      keyExtractor={item => item.id}
+    >
+    </FlatList>
   )
 }
 

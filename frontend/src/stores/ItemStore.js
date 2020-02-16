@@ -4,6 +4,7 @@ import { HttpLink } from 'apollo-link-http'
 import fetch from 'node-fetch'
 import toggleDoneItem from '../api/mutations/toggleDoneItem'
 import addItemToChecklist from '../api/mutations/addItemToChecklist'
+import removeItemFromChecklist from '../api/mutations/removeItemFromChecklist'
 
 const link = new HttpLink({ uri: 'http://localhost:3001/graphql', fetch })
 
@@ -25,6 +26,14 @@ export default class ItemStore {
   @action.bound
   addItem(name, checklistId) {
     makePromise(execute(link, addItemToChecklist(name, checklistId)))
+      .then(() => this.root.refresh()
+      )
+      .catch(error => this.errors = error)
+  }
+
+  @action.bound
+  removeItem(itemId) {
+    makePromise(execute(link, removeItemFromChecklist(itemId)))
       .then(() => this.root.refresh()
       )
       .catch(error => this.errors = error)
