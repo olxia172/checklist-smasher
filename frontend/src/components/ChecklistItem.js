@@ -5,6 +5,14 @@ import styled from "styled-components";
 
 const StyledItemName = styled.Text`
   text-decoration: ${props => props.done ? 'line-through' : 'none'}
+  align-self: center;
+  font-size: 16px;
+`;
+
+const StyledView = styled.View`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
 `;
 
 function useChecklists() {
@@ -21,13 +29,13 @@ function ChecklistItem({ name, done, id }) {
   }
   
   return (
-    <>
+    <StyledView>
       <Checkbox.Android
         status={Boolean(done) ? 'checked' : 'unchecked'}
         onPress={() => toggleDone()}
       />
       <StyledItemName done={Boolean(done)} >{name}</StyledItemName>
-    </>
+    </StyledView>
   )
 };
 
