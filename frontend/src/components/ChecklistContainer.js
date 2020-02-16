@@ -1,9 +1,9 @@
 import React from 'react'
-import { Text, FlatList } from 'react-native'
 import styled from 'styled-components/native'
-import { checklistsColors, basicColors } from '../constants/colors'
+import {bool, string, number, shape, arrayOf, oneOfType} from 'prop-types'
+import { checklistsColors } from '../constants/colors'
 import ChecklistItem from '../components/ChecklistItem'
-import {View} from "react-native-reanimated";
+import ChecklistHeader from '../components/ChecklistHeader'
 
 const StyledView = styled.View`
   border-width: 4px;
@@ -12,14 +12,6 @@ const StyledView = styled.View`
   border-radius: 5px;
   background-color: ${checklistsColors.defaultColorLight};
   margin: 15px;
-`;
-
-const StyledTitle = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  color: ${basicColors.black};
-  background-color: ${checklistsColors.defaultColorDark};
-  padding: 10px;
 `;
 
 const StyledList = styled.FlatList`
@@ -34,15 +26,25 @@ const StyledSeparator = styled.View`
   margin-bottom: 5px;
 `;
 
-const ChecklistContainer = ({ name, data }) => (
+const ChecklistContainer = ({ name, id, items }) => (
   <StyledView key={name}>
-    <StyledTitle>{name}</StyledTitle>
+    <ChecklistHeader name={name} checklistId={id} />
     <StyledList
-      data={data}
+      data={items}
       renderItem={({ item }) => <ChecklistItem key={item.name} {...item} />}
-      ItemSeparatorComponent={(props) => (<StyledSeparator />)}
+      ItemSeparatorComponent={() => (<StyledSeparator />)}
     />
   </StyledView>
 );
+
+ChecklistContainer.propTypes = {
+  name: string,
+  id: oneOfType([number, string]),
+  items: arrayOf(shape({
+    name: string,
+    id: oneOfType([number, string]),
+    done: bool,
+  }))
+};
 
 export default ChecklistContainer

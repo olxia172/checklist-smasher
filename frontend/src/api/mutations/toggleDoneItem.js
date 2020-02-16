@@ -1,22 +1,6 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
-export const getChecklists = {
-  query: gql`
-    query {
-      checklists {
-        id
-        name
-        items {
-          id
-          name
-          done
-        }
-      }
-    }
-  `,
-};
-
-export function toggleDoneItem(itemId, done) {
+export default function toggleDoneItem(itemId, done) {
   return ({
     query: gql`
       mutation ToggleDoneItemMutation($input: ToggleDoneItemMutationInput!) {
