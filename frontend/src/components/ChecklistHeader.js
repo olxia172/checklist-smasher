@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/native'
+import {number, oneOfType, string} from 'prop-types'
 import { basicColors, checklistsColors } from '../constants/colors'
 import { Modal, Portal, Text, Button, TextInput } from 'react-native-paper'
 import useDialogModal from '../hooks/useDialogModal'
-import {useStoreData} from "../hooks/useStoreData";
+import { useStoreData } from '../hooks/useStoreData'
 
 const StyledTitle = styled.Text`
   font-size: 16px;
@@ -75,5 +76,10 @@ function ChecklistHeader({ name, checklistId }) {
     </StyledHeader>
   )
 }
+
+ChecklistHeader.propTypes = {
+  name: string,
+  checklistId: oneOfType([number, string]),
+};
 
 export default ChecklistHeader

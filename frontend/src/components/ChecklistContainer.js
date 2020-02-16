@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
+import {bool, string, number, shape, arrayOf, oneOfType} from 'prop-types'
 import { checklistsColors } from '../constants/colors'
 import ChecklistItem from '../components/ChecklistItem'
 import ChecklistHeader from '../components/ChecklistHeader'
@@ -35,5 +36,15 @@ const ChecklistContainer = ({ name, id, items }) => (
     />
   </StyledView>
 );
+
+ChecklistContainer.propTypes = {
+  name: string,
+  id: oneOfType([number, string]),
+  items: arrayOf(shape({
+    name: string,
+    id: oneOfType([number, string]),
+    done: bool,
+  }))
+};
 
 export default ChecklistContainer

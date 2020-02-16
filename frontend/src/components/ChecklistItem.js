@@ -1,8 +1,9 @@
 import React from 'react'
 import { Checkbox } from 'react-native-paper'
-import { TouchableHighlight } from "react-native";
-import { useStoreData } from "../hooks/useStoreData"
-import styled from "styled-components";
+import { TouchableHighlight } from 'react-native'
+import { bool, string, number, oneOfType } from 'prop-types'
+import { useStoreData } from '../hooks/useStoreData'
+import styled from 'styled-components'
 
 const StyledItemName = styled.Text`
   text-decoration: ${props => props.done ? 'line-through' : 'none'}
@@ -39,6 +40,12 @@ function ChecklistItem({ name, done, id }) {
       <StyledItemName done={Boolean(done)} >{name}</StyledItemName>
     </StyledView>
   )
+}
+
+ChecklistItem.propTypes = {
+  name: string,
+  done: bool,
+  id: oneOfType([number, string]),
 };
 
 export default ChecklistItem
