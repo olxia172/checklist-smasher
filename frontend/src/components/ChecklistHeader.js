@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/native'
 import { basicColors, checklistsColors } from '../constants/colors'
 import { Modal, Portal, Text, Button, TextInput } from 'react-native-paper'
 import useDialogModal from '../hooks/useDialogModal'
+import {useStoreData} from "../hooks/useStoreData";
 
 const StyledTitle = styled.Text`
   font-size: 16px;
@@ -21,8 +22,22 @@ const StyledHeader = styled.View`
   justify-content: space-between;
 `;
 
+function useChecklists() {
+  return useStoreData(({ itemStore }) => ({
+    addItem: itemStore.addItem,
+  }))
+}
+
 function ChecklistHeader({ name, checklistId }) {
-  const { isModalOpened, openDialogModal, closeDialogModal } = useDialogModal()
+  const { addItem } = useChecklists();
+  const { isModalOpened, openDialogModal, closeDialogModal } = useDialogModal();
+  const [itemName, setItemName] = useState('');
+
+  const handleAddItem = () => {
+    addItem(itemName, checklistId);
+    closeDialogModal();
+    setItemName('');
+  };
 
   return (
     <StyledHeader>
@@ -45,7 +60,16 @@ function ChecklistHeader({ name, checklistId }) {
             label='New item'
             mode='outlined'
             style={{ fontSize: 16, paddingHorizontal: 20, paddingVertical: 20 }}
+            value={itemName}
+            onChangeText={text => { setItemName(text) }}
           />
+          <Button
+            icon='plus'
+            mode='contained'
+            onPress={handleAddItem}
+          >
+            Add item
+          </Button>
         </Modal>
       </Portal>
     </StyledHeader>

@@ -11,11 +11,12 @@ module Mutations
       #   raise GraphQL::ExecutionError,
       #         "You need to authenticate to perform this action"
       # end
+      #
 
       item = Item.new(name: name, checklist_id: checklist_id)
 
       if item.save
-        { item: item }
+        { item: item, errors: [] }
       else
         { errors: item.errors.full_messages }
       end
