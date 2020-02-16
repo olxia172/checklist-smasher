@@ -2,7 +2,7 @@ import { observable, action } from 'mobx'
 import { execute, makePromise } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
 import fetch from 'node-fetch'
-import { getChecklists, toggleDoneItem } from '../queries/checklists'
+import { getChecklists } from '../api/queries/checklists'
 
 const link = new HttpLink({ uri: 'http://localhost:3001/graphql', fetch })
 
