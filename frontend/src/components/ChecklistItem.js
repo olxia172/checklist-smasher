@@ -1,5 +1,6 @@
 import React from 'react'
 import { Checkbox } from 'react-native-paper'
+import { TouchableHighlight } from "react-native";
 import { useStoreData } from "../hooks/useStoreData"
 import styled from "styled-components";
 
@@ -30,10 +31,11 @@ function ChecklistItem({ name, done, id }) {
   
   return (
     <StyledView>
-      <Checkbox.Android
-        status={Boolean(done) ? 'checked' : 'unchecked'}
-        onPress={() => toggleDone()}
-      />
+      <TouchableHighlight underlayColor='#FFFFFF' onPress={() => toggleDone()}>
+        <Checkbox.Android
+          status={Boolean(done) ? 'checked' : 'unchecked'}
+        />
+      </TouchableHighlight>
       <StyledItemName done={Boolean(done)} >{name}</StyledItemName>
     </StyledView>
   )

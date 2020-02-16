@@ -1,9 +1,8 @@
 import React from 'react'
-import { Text, FlatList } from 'react-native'
 import styled from 'styled-components/native'
-import { checklistsColors, basicColors } from '../constants/colors'
+import { checklistsColors } from '../constants/colors'
 import ChecklistItem from '../components/ChecklistItem'
-import {View} from "react-native-reanimated";
+import ChecklistHeader from '../components/ChecklistHeader'
 
 const StyledView = styled.View`
   border-width: 4px;
@@ -12,14 +11,6 @@ const StyledView = styled.View`
   border-radius: 5px;
   background-color: ${checklistsColors.defaultColorLight};
   margin: 15px;
-`;
-
-const StyledTitle = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  color: ${basicColors.black};
-  background-color: ${checklistsColors.defaultColorDark};
-  padding: 10px;
 `;
 
 const StyledList = styled.FlatList`
@@ -36,7 +27,7 @@ const StyledSeparator = styled.View`
 
 const ChecklistContainer = ({ name, data }) => (
   <StyledView key={name}>
-    <StyledTitle>{name}</StyledTitle>
+    <ChecklistHeader name={name} />
     <StyledList
       data={data}
       renderItem={({ item }) => <ChecklistItem key={item.name} {...item} />}
