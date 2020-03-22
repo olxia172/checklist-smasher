@@ -1,7 +1,7 @@
 module Mutations
   class AddItemMutation < Mutations::BaseMutation
     argument :name, String, required: true
-    argument :checklist_id, Int, required: true
+    argument :checklist_id, ID, required: true
 
     field :item, Types::ItemType, null: true
     field :errors, [String], null: false
@@ -12,7 +12,7 @@ module Mutations
       #         "You need to authenticate to perform this action"
       # end
       #
-
+      #
       item = Item.new(name: name, checklist_id: checklist_id)
 
       if item.save

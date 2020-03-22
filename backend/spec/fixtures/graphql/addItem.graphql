@@ -1,0 +1,5 @@
+mutation addItem($name: String!, $checklistId: ID!) {
+  addItem(input: { name: $name, checklistId: $checklistId }) {
+    item { id }
+  }
+}
