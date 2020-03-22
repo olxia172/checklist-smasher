@@ -8,13 +8,28 @@ RSpec.describe 'AddItemMutation', type: :graphql do
   subject { schema.execute(queries.add_item, variables) }
 
   let!(:checklist1) { create(:checklist) }
-  let(:variables) { { checklist_id: checklist1.id, name: 'Test item' } }
 
-  it 'should create item' do
-    expect { subject }.to change { Item.count }.by(1)
+  describe 'when success' do
+    let(:variables) { { checklist_id: checklist1.id, name: 'Test item' } }
+
+    it 'should create item' do
+      expect { subject }.to change { Item.count }.by(1)
+    end
+
+    it 'should return proper response' do
+      expect(subject.dig('data', 'addItem', 'item', 'id')).to eq(Item.last.id.to_s)
+    end
   end
 
-  it 'should return proper response' do
-    expect(subject.dig('data', 'addItem', 'item', 'id')).to eq(Item.last.id.to_s)
+  describe 'when success' do
+    let(:variables) { { checklist_id: checklist1.id, name: 'Test item' } }
+
+    it 'should create item' do
+      expect { subject }.to change { Item.count }.by(1)
+    end
+
+    it 'should return proper response' do
+      expect(subject.dig('data', 'addItem', 'item', 'id')).to eq(Item.last.id.to_s)
+    end
   end
 end
