@@ -26,6 +26,7 @@ gem "graphql", "~> 1.9"
 gem 'graphiql-rails', group: :development
 gem 'sprockets', '~> 3'
 gem 'graphql-extras'
+gem 'graphql-errors'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and queries a debugger console
