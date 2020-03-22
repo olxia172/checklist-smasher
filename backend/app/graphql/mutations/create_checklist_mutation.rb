@@ -17,7 +17,7 @@ module Mutations
       if checklist.save
         { checklist: checklist, errors: [] }
       else
-        { errors: item.errors.full_messages }
+        { errors: checklist.errors.full_messages }
       end
     end
   end

@@ -1,0 +1,9 @@
+mutation toggleDoneItem($id: ID!, $done: Boolean!) {
+  toggleDoneItem(input: { id: $id, done: $done }) {
+    errors
+    item {
+      id
+      done
+    }
+  }
+}

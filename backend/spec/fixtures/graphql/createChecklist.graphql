@@ -1,0 +1,8 @@
+mutation createChecklist($name: String) {
+  createChecklist(input: { name: $name }) {
+    checklist {
+      id
+      name
+    }
+  }
+}
