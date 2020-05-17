@@ -11,5 +11,11 @@ module Types
     def checklists
       Checklist.all.includes(:items)
     end
+
+    field :current_user, Types::EnjoyerType, null: true
+
+    def current_user
+      context[:current_user]
+    end
   end
 end

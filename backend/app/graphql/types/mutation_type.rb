@@ -5,5 +5,7 @@ module Types
     field :remove_item, mutation: Mutations::RemoveItemMutation
 
     field :create_checklist, mutation: Mutations::CreateChecklistMutation
+
+    field :register, mutation: Mutations::RegisterEnjoyerMutation
   end
 end
