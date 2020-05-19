@@ -2,9 +2,9 @@ import { observable, action } from "mobx";
 import { execute, makePromise } from "apollo-link";
 import { getCurrentUser as getCurrentEnjoyer } from "../api/queries/getCurrentUser";
 import { loginEnjoyer } from "../api/queries/loginEnjoyer";
-import { AsyncStorage } from "react-native";
-import { SESSION_KEY } from "../constants/keys";
+import { logoutEnjoyer } from "../api/queries/logoutEnjoyer";
 import useGraphQL from "../hooks/useGraphQL";
+import { saveToken, getToken } from "../helpers/tokenHelpers";
 
 export default class UserStore {
   constructor(root) {
@@ -18,9 +18,8 @@ export default class UserStore {
   @observable errors = null;
 
   @action.bound
-  getCurrentUser() {
-    const key = AsyncStorage.getItem(SESSION_KEY);
-    console.log(key);
+  async getCurrentUser() {
+    const key = await getToken();
 
     if (key !== null) {
       makePromise(execute(useGraphQL(key), getCurrentEnjoyer))
@@ -44,14 +43,33 @@ export default class UserStore {
         console.log("HERE");
 
         console.log(data);
-
-        AsyncStorage.setItem(SESSION_KEY, data.login);
-        this.getCurrentUser();
+        this.save(data.login);
       })
-      .catch((error) => (this.errors = error));
+      .catch((error) => (this.errors = error))
+      .finally(() => this.getCurrentUser());
 
     console.log(this.errors);
   }
 
-  logoutUser() {}
+  @action.bound
+  async logoutUser() {
+    const key = await getToken();
+
+    if (key !== null) {
+      makePromise(execute(useGraphQL(key), logoutEnjoyer))
+        .then(() => {
+          this.userName = null;
+          this.userEmail = null;
+          this.isUserLoggedIn = false;
+          this.save(null);
+        })
+        .catch((error) => (this.errors = error))
+        .finally(() => this.getCurrentUser());
+    }
+  }
+
+  @action.bound
+  async save(token) {
+    await saveToken(token);
+  }
 }

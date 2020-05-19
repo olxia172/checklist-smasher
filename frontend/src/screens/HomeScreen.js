@@ -7,12 +7,13 @@ function useData() {
   return useStoreData(({ checklistsStore, userStore }) => ({
     checklistsCount: checklistsStore.checklistsCount,
     login: userStore.loginUser,
+    logout: userStore.logoutUser,
     isUserLoggedIn: userStore.isUserLoggedIn,
   }));
 }
 
 function HomeScreen({ navigation }) {
-  const { checklistsCount, isUserLoggedIn, login } = useData();
+  const { checklistsCount, isUserLoggedIn, login, logout } = useData();
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -20,6 +21,8 @@ function HomeScreen({ navigation }) {
   const handleLogin = () => {
     login(email, password);
   };
+
+  const handleLogout = () => logout();
 
   return (
     <>
@@ -30,6 +33,7 @@ function HomeScreen({ navigation }) {
             title="Go to checklists"
             onPress={() => navigation.navigate("Checklists")}
           />
+          <Button title="Logout" onPress={handleLogout} />
         </View>
       ) : (
         <View>
