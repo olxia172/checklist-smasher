@@ -15,7 +15,28 @@ module Types
     field :current_user, Types::EnjoyerType, null: true
 
     def current_user
-      context[:current_user]
+      user = context[:current_user]
+      pp user
+      user
+    end
+
+    field :login, String, null: true, description: "Login a user" do
+      argument :email, String, required: true
+      argument :password, String, required: true
+    end
+
+    def login(email:, password:)
+      if user = Enjoyer.where(email: email).first&.authenticate(password)
+        user.sessions.create.key
+      end
+    end
+
+    field :logout, Boolean, null: true, description: "Logout user"
+
+    def logout
+      user = context[:current_user]
+      user&.sessions&.each(&:destroy!)
+      true
     end
   end
 end
