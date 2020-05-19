@@ -9,15 +9,14 @@ module Types
           description: "Returns a list of checklists"
 
     def checklists
-      Checklist.all.includes(:items)
+      enjoyer = context[:current_user]
+      enjoyer.checklists.all.includes(:items)
     end
 
-    field :current_user, Types::EnjoyerType, null: true
+    field :current_user, Types::EnjoyerType, null: true, description: "returns current user"
 
     def current_user
-      user = context[:current_user]
-      pp user
-      user
+      context[:current_user]
     end
 
     field :login, String, null: true, description: "Login a user" do
@@ -34,8 +33,10 @@ module Types
     field :logout, Boolean, null: true, description: "Logout user"
 
     def logout
-      user = context[:current_user]
-      user&.sessions&.each(&:destroy!)
+      if user = context[:current_user]
+        user.sessions.each(&:destroy!)
+      end
+      
       true
     end
   end
