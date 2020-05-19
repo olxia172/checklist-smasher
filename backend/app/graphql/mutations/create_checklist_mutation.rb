@@ -12,7 +12,8 @@ module Mutations
       # end
       #
 
-      checklist = Checklist.new(name: name, enjoyer: Enjoyer.first)
+      enjoyer = context[:current_user]
+      checklist = enjoyer&.checklists&.new(name: name, enjoyer: Enjoyer.first)
 
       if checklist.save
         { checklist: checklist, errors: [] }

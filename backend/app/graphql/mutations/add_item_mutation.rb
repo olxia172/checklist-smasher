@@ -13,7 +13,9 @@ module Mutations
       # end
       #
       #
-      item = Item.new(name: name, checklist_id: checklist_id)
+      enjoyer = context[:current_user]
+      checklist = enjoyer&.checklists&.find_by(id: checklist_id)
+      item = checklist&.items&.new(name: name)
 
       if item.save
         { item: item, errors: [] }
