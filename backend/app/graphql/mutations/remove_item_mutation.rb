@@ -11,11 +11,9 @@ module Mutations
       # end
       #
 
-      item = Item.find_by(id: id)
+      item = Item.find(id)
 
-      if item&.destroy!
-        { errors: [] }
-      else
+      unless item&.destroy!
         { errors: item&.errors&.full_messages }
       end
     end

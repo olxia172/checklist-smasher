@@ -13,13 +13,12 @@ module Mutations
       # end
       #
 
-      item = Item.find_by(id: id)
-
+      item = Item.find(id)
       item&.update(done: done)
 
       {
         item: item,
-        errors: [],
+        errors: item&.errors.full_messages,
       }
     end
   end

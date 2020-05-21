@@ -9,8 +9,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
+      current_user: set_current_user,
     }
     result = ChecklistSmasherSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
@@ -44,5 +43,14 @@ class GraphqlController < ApplicationController
     logger.error e.backtrace.join("\n")
 
     render json: { error: { message: e.message, backtrace: e.backtrace }, data: {} }, status: 500
+  end
+
+  def set_current_user
+    key = request.headers['Authorization']
+
+    if key.present?
+      session = Session.find_by(key: key)
+      session&.enjoyer
+    end
   end
 end

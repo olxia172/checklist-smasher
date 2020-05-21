@@ -1,15 +1,12 @@
-import { observable, action } from 'mobx'
-import { execute, makePromise } from 'apollo-link'
-import { HttpLink } from 'apollo-link-http'
-import fetch from 'node-fetch'
-import { getChecklists } from '../api/queries/checklists'
-import createChecklist from '../api/mutations/createChecklist'
-
-const link = new HttpLink({ uri: 'http://localhost:3001/graphql', fetch })
+import { observable, action } from "mobx";
+import { execute, makePromise } from "apollo-link";
+import { getChecklists } from "../api/queries/checklists";
+import createChecklist from "../api/mutations/createChecklist";
+import useGraphQL from "../hooks/useGraphQL";
 
 export default class ChecklistsStore {
   constructor(root) {
-    this.root = root
+    this.root = root;
   }
 
   @observable isLoading = false;
@@ -20,20 +17,26 @@ export default class ChecklistsStore {
   @action.bound
   getChecklists() {
     this.isLoading = true;
-    makePromise(execute(link, getChecklists))
+    makePromise(
+      execute(useGraphQL(this.root.sessionStore.sessionKey), getChecklists)
+    )
       .then(({ data }) => {
         this.checklists = data.checklists;
         this.checklistsCount = this.checklists.length;
-        this.isLoading = false
+        this.isLoading = false;
       })
-      .catch(error => this.errors = error)
+      .catch((error) => (this.errors = error));
   }
-  
+
   @action.bound
   createChecklist(checklistName) {
-    makePromise(execute(link, createChecklist(checklistName)))
-      .then(() => this.root.refresh()
+    makePromise(
+      execute(
+        useGraphQL(this.root.sessionStore.sessionKey),
+        createChecklist(checklistName)
       )
-      .catch(error => this.errors = error)
+    )
+      .then(() => this.root.refresh())
+      .catch((error) => (this.errors = error));
   }
 }

@@ -15,7 +15,7 @@ RSpec.describe 'ToggleDoneItemMutation', type: :graphql do
       expect(subject).to be_successful_query
     end
 
-    it 'should remove item' do
+    it 'should update item' do
       expect { subject }.to change { item.reload.done }.from(false).to(true)
     end
 
@@ -34,14 +34,27 @@ RSpec.describe 'ToggleDoneItemMutation', type: :graphql do
       expect(subject).to be_successful_query
     end
 
-    it 'should remove item' do
+    it 'should update item' do
       expect { subject }.to change { item1.reload.done }.from(true).to(false)
     end
-  
+
     it 'should return proper response' do
       expect(subject.dig('data', 'toggleDoneItem', 'errors')).to eq([])
       expect(subject.dig('data', 'toggleDoneItem', 'item', 'id')).to eq(item1.id.to_s)
       expect(subject.dig('data', 'toggleDoneItem', 'item', 'done')).to eq(false)
+    end
+  end
+
+  describe 'when item not found' do
+    let(:variables) { { id: 123456, done: false } }
+
+    it 'should be successful' do
+      expect(subject).not_to be_successful_query
+    end
+
+    it 'should return proper response' do
+      expect(subject.dig('data', 'toggleDoneItem')).to eq(nil)
+      expect(subject.dig('errors').map { |err| err['message'] }).to match_array(['Sorry! Item not found'])
     end
   end
 end

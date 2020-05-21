@@ -3,22 +3,35 @@ require 'rails_helper'
 
 RSpec.describe 'RemoveItemMutation', type: :graphql do
   let!(:item) { create(:item) }
-  let(:schema)  { use_schema(ChecklistSmasherSchema, context: {}) }
-  let(:queries) { graphql_fixture("removeItem.graphql") }
+  let(:test_query) { graphql_fixture("removeItem.graphql").remove_item }
 
-  subject { schema.execute(queries.remove_item, variables) }
+  subject { schema.execute(test_query, variables) }
 
-  let(:variables) { { id: item.id } }
+  describe 'when success' do
+    let(:variables) { { id: item.id } }
 
-  it 'should be successful' do
-    expect(subject).to be_successful_query
+    it 'should be successful' do
+      expect(subject).to be_successful_query
+    end
+
+    it 'should remove item' do
+      expect { subject }.to change { Item.count }.by(-1)
+    end
+
+    it 'should return proper response' do
+      expect(subject.dig('data', 'removeItem', 'errors')).to eq(nil)
+    end
   end
 
-  it 'should remove item' do
-    expect { subject }.to change { Item.count }.by(-1)
-  end
+  describe 'when item not found' do
+    let(:variables) { { id: 12345 } }
 
-  it 'should return proper response' do
-    expect(subject.dig('data', 'removeItem', 'errors')).to eq([])
+    it 'should be successful' do
+      expect(subject).not_to be_successful_query
+    end
+
+    it 'should return proper response' do
+      expect(subject.dig('errors').map { |err| err['message'] }).to eq(['Sorry! Item not found'])
+    end
   end
 end
