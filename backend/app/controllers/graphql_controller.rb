@@ -46,7 +46,7 @@ class GraphqlController < ApplicationController
   end
 
   def set_current_user
-    key = request.headers['Authorization']&.split()&.last
+    key = request.headers['Authorization']&.split&.last
 
     if key.present?
       decoded_token = begin
@@ -59,15 +59,6 @@ class GraphqlController < ApplicationController
       if enjoyer_id.present?
         Enjoyer.find_by(id: enjoyer_id)
       end
-    end
-  end
-
-  def set_current_user
-    key = request.headers['Authorization']
-
-    if key.present?
-      session = Session.find_by(key: key)
-      session&.enjoyer
     end
   end
 end
