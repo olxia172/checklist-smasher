@@ -42,15 +42,23 @@ class GraphqlController < ApplicationController
     logger.error e.message
     logger.error e.backtrace.join("\n")
 
-    render json: { error: { message: e.message, backtrace: e.backtrace }, data: {} }, status: 500
+    render json: { error: { message: e.message, backtrace: e.backtrace }, data: {} }, status: 422
   end
 
   def set_current_user
-    key = request.headers['Authorization']
+    key = request.headers['Authorization']&.split&.last
 
     if key.present?
-      session = Session.find_by(key: key)
-      session&.enjoyer
+      decoded_token = begin
+        JWT.decode key, ENV['HMAC_SECRET'], true, { algorithm: 'HS256' }
+      rescue JWT::ExpiredSignature
+        []
+      end
+
+      enjoyer_id = decoded_token.first&.dig("enjoyer_id")
+      if enjoyer_id.present?
+        Enjoyer.find_by(id: enjoyer_id)
+      end
     end
   end
 end

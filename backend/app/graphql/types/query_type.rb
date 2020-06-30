@@ -10,7 +10,7 @@ module Types
 
     def checklists
       enjoyer = context[:current_user]
-      enjoyer.checklists.all.includes(:items)
+      enjoyer&.checklists&.includes(:items)
     end
 
     field :current_user, Types::EnjoyerType, null: true, description: "returns current user"
@@ -34,7 +34,7 @@ module Types
 
     def logout
       if user = context[:current_user]
-        user.sessions.each(&:destroy!)
+        user&.sessions&.each(&:destroy!)
       end
       
       true

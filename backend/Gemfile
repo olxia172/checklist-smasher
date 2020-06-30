@@ -27,10 +27,12 @@ gem 'graphiql-rails', group: :development
 gem 'sprockets', '~> 3'
 gem 'graphql-extras'
 gem 'graphql-errors'
+gem 'jwt'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and queries a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'dotenv-rails'
   gem 'rubocop'
   gem 'pry'
   gem 'pry-rails'
