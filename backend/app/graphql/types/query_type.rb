@@ -10,7 +10,6 @@ module Types
 
     def checklists
       enjoyer = context[:current_user]
-      pp enjoyer
       enjoyer&.checklists&.includes(:items)
     end
 

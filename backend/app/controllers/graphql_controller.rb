@@ -48,9 +48,6 @@ class GraphqlController < ApplicationController
   def set_current_user
     key = request.headers['Authorization']&.split()&.last
 
-    pp key
-    pp key.present?
-
     if key.present?
       decoded_token = begin
         JWT.decode key, ENV['HMAC_SECRET'], true, { algorithm: 'HS256' }

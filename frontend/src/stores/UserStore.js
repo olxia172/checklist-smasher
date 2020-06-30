@@ -45,8 +45,6 @@ export default class UserStore {
       })
       .catch((error) => (this.errors = error))
       .finally(() => this.getCurrentUser());
-
-    console.log(this.errors);
   }
 
   @action.bound
