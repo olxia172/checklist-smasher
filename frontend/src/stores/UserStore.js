@@ -23,16 +23,17 @@ export default class UserStore {
 
     if (key !== null) {
       makePromise(execute(useGraphQL(key), getCurrentEnjoyer))
-        .then(({ data }) => {
-          console.log(data);
-          console.log("HERE2");
-
-          this.userName = data.currentUser.name;
-          this.userEmail = data.currentUser.email;
+        .then(({ data: { currentUser: { name, email } } }) => {
+          this.userName = name;
+          this.userEmail = email;
           this.isUserLoggedIn = true;
         })
-        .catch((error) => (this.errors = error))
-        .finally(() => this.root.refresh());
+        .then(() => this.root.refresh())
+        .catch((error) => {
+          this.errors = error;
+          this.save(null);
+          this.isUserLoggedIn = false;
+        });
     }
   }
 
@@ -40,9 +41,6 @@ export default class UserStore {
   loginUser(email, password) {
     makePromise(execute(useGraphQL(null), loginEnjoyer(email, password)))
       .then(({ data }) => {
-        console.log("HERE");
-
-        console.log(data);
         this.save(data.login);
       })
       .catch((error) => (this.errors = error))

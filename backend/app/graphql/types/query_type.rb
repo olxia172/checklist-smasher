@@ -10,7 +10,7 @@ module Types
 
     def checklists
       enjoyer = context[:current_user]
-      enjoyer.checklists.all.includes(:items)
+      enjoyer&.checklists&.includes(:items)
     end
 
     field :current_user, Types::EnjoyerType, null: true, description: "returns current user"
