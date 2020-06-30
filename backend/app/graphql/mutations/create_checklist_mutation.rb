@@ -9,7 +9,7 @@ module Mutations
       enjoyer = context[:current_user]
       checklist = enjoyer&.checklists&.new(name: name, enjoyer: Enjoyer.first)
 
-      if checklist.save
+      if checklist&.save
         { checklist: checklist, errors: [] }
       else
         { errors: checklist.errors.full_messages }

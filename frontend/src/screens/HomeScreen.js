@@ -24,8 +24,6 @@ function HomeScreen({ navigation }) {
 
   const handleLogout = () => logout();
 
-  console.log(isUserLoggedIn);
-
   return (
     <>
       {isUserLoggedIn ? (

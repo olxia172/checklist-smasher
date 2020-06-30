@@ -61,4 +61,13 @@ class GraphqlController < ApplicationController
       end
     end
   end
+
+  def set_current_user
+    key = request.headers['Authorization']
+
+    if key.present?
+      session = Session.find_by(key: key)
+      session&.enjoyer
+    end
+  end
 end
