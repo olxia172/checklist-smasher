@@ -31,7 +31,7 @@ export default class UserStore {
         .then(() => this.root.refresh())
         .catch((error) => {
           this.errors = error;
-          this.save(null);
+          this.save(undefined);
           this.isUserLoggedIn = false;
         });
     }
@@ -54,15 +54,12 @@ export default class UserStore {
     const key = await getToken();
 
     if (key !== null) {
-      makePromise(execute(useGraphQL(key), logoutEnjoyer))
-        .then(() => {
-          this.userName = null;
-          this.userEmail = null;
-          this.isUserLoggedIn = false;
-          this.save(null);
-        })
-        .catch((error) => (this.errors = error))
-        .finally(() => this.getCurrentUser());
+      makePromise(execute(useGraphQL(key), logoutEnjoyer)).finally(() => {
+        this.userName = null;
+        this.userEmail = null;
+        this.isUserLoggedIn = false;
+        this.save(undefined);
+      });
     }
   }
 

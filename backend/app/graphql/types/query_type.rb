@@ -10,6 +10,7 @@ module Types
 
     def checklists
       enjoyer = context[:current_user]
+      pp enjoyer
       enjoyer&.checklists&.includes(:items)
     end
 
@@ -34,7 +35,7 @@ module Types
 
     def logout
       if user = context[:current_user]
-        user.sessions.each(&:destroy!)
+        user&.sessions&.each(&:destroy!)
       end
       
       true
