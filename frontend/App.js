@@ -1,20 +1,20 @@
-import React, { useEffect, useMemo } from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
-import HomeScreen from './src/screens/HomeScreen'
-import ChecklistsScreen from './src/screens/ChecklistsScreen'
-import { StoreProvider } from './src/stores/storesContext'
-import RootStore from './src/stores/RootStore'
-import { basicColors } from './src/constants/colors'
+import React, { useEffect, useMemo } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import HomeScreen from "./src/screens/HomeScreen";
+import ChecklistsScreen from "./src/screens/ChecklistsScreen";
+import { StoreProvider } from "./src/stores/storesContext";
+import RootStore from "./src/stores/RootStore";
+import { basicColors } from "./src/constants/colors";
 
 const Stack = createStackNavigator();
 
 function App() {
-  const store = useMemo(() => (new RootStore()), []);
+  const store = useMemo(() => new RootStore(), []);
 
   useEffect(() => {
-    store.setup()
+    store.setup();
   });
 
   const headerStyles = {
@@ -23,13 +23,13 @@ function App() {
     },
     headerTintColor: basicColors.white,
     headerTitleStyle: {
-      fontWeight: 'bold',
+      fontWeight: "bold",
     },
   };
 
   const theme = {
     ...DefaultTheme,
-    roundness: 2,
+    roundness: 0,
     colors: {
       ...DefaultTheme.colors,
       primary: basicColors.primary,
@@ -41,17 +41,17 @@ function App() {
     <StoreProvider store={store}>
       <PaperProvider theme={theme}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName='Home'>
+          <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
-              name='Home'
+              name="Home"
               component={HomeScreen}
               options={{
                 ...headerStyles,
-                title: 'ChecklistSmasher',
+                title: "ChecklistSmasher",
               }}
             />
             <Stack.Screen
-              name='Checklists'
+              name="Checklists"
               component={ChecklistsScreen}
               options={{
                 ...headerStyles,
@@ -61,7 +61,7 @@ function App() {
         </NavigationContainer>
       </PaperProvider>
     </StoreProvider>
-  )
+  );
 }
 
-export default App
+export default App;
