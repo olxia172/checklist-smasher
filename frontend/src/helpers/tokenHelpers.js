@@ -5,6 +5,10 @@ export async function saveToken(sessionKey) {
   await AsyncStorage.setItem(SESSION_KEY, sessionKey);
 }
 
+export async function removeToken() {
+  await AsyncStorage.removeItem(SESSION_KEY);
+}
+
 export async function getToken() {
   const token = await AsyncStorage.getItem(SESSION_KEY);
 

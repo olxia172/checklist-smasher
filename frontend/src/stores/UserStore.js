@@ -4,7 +4,7 @@ import { getCurrentUser as getCurrentEnjoyer } from "../api/queries/getCurrentUs
 import { loginEnjoyer } from "../api/queries/loginEnjoyer";
 import { logoutEnjoyer } from "../api/queries/logoutEnjoyer";
 import useGraphQL from "../hooks/useGraphQL";
-import { saveToken, getToken } from "../helpers/tokenHelpers";
+import { saveToken, removeToken, getToken } from "../helpers/tokenHelpers";
 
 export default class UserStore {
   constructor(root) {
@@ -31,7 +31,7 @@ export default class UserStore {
         .then(() => this.root.refresh())
         .catch((error) => {
           this.errors = error;
-          this.save(undefined);
+          this.cleanSession();
           this.isUserLoggedIn = false;
         });
     }
@@ -51,18 +51,23 @@ export default class UserStore {
   async logoutUser() {
     const key = await getToken();
 
-    if (key !== null) {
-      makePromise(execute(useGraphQL(key), logoutEnjoyer)).finally(() => {
-        this.userName = null;
-        this.userEmail = null;
-        this.isUserLoggedIn = false;
-        this.save(undefined);
-      });
-    }
+    console.log("key", key);
+
+    makePromise(execute(useGraphQL(key), logoutEnjoyer)).finally(() => {
+      this.userName = null;
+      this.userEmail = null;
+      this.isUserLoggedIn = false;
+      this.cleanSession();
+    });
   }
 
   @action.bound
   async save(token) {
     await saveToken(token);
+  }
+
+  @action.bound
+  async cleanSession() {
+    await removeToken();
   }
 }
