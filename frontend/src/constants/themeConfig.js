@@ -7,6 +7,8 @@ const headerStyles = {
   },
   headerTintColor: basicColors.white,
   headerTitleStyle: {
+    marginLeft: "auto",
+    marginRight: "auto",
     fontWeight: "bold",
   },
 };

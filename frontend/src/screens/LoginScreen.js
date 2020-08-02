@@ -1,7 +1,19 @@
 import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
-import { TextInput } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 import { useStoreData } from "../hooks/useStoreData";
+import styled from "styled-components";
+
+const MainViewContainer = styled.View`
+  height: 100%;
+`;
+
+const Container = styled.View`
+  margin-top: 40px;
+`;
+
+const ButtonWrapper = styled.View`
+  margin: 20px;
+`;
 
 function useData() {
   return useStoreData(({ checklistsStore, userStore }) => ({
@@ -23,28 +35,44 @@ const LoginScreen = () => {
   };
 
   return (
-    <View>
-      <Text>Login</Text>
-      <TextInput
-        label="Email"
-        mode="outlined"
-        style={{ fontSize: 16, paddingHorizontal: 20, paddingVertical: 20 }}
-        value={email}
-        onChangeText={(text) => {
-          setEmail(text);
-        }}
-      />
-      <TextInput
-        label="Email"
-        mode="outlined"
-        style={{ fontSize: 16, paddingHorizontal: 20, paddingVertical: 20 }}
-        value={password}
-        onChangeText={(text) => {
-          setPassword(text);
-        }}
-      />
-      <Button title="Login" onPress={handleLogin} />
-    </View>
+    <MainViewContainer>
+      <Container>
+        <TextInput
+          label="Email"
+          mode="outlined"
+          style={{
+            fontSize: 16,
+            paddingHorizontal: 20,
+            paddingVertical: 20,
+          }}
+          value={email}
+          onChangeText={(text) => {
+            setEmail(text);
+          }}
+        />
+        <TextInput
+          label="Email"
+          mode="outlined"
+          secureTextEntry={true}
+          password={true}
+          style={{ fontSize: 16, paddingHorizontal: 20, paddingVertical: 20 }}
+          value={password}
+          onChangeText={(text) => {
+            setPassword(text);
+          }}
+        />
+        <ButtonWrapper>
+          <Button
+            icon="login"
+            onPress={handleLogin}
+            mode="contained"
+            style={{ paddingVertical: 16 }}
+          >
+            Login
+          </Button>
+        </ButtonWrapper>
+      </Container>
+    </MainViewContainer>
   );
 };
 
