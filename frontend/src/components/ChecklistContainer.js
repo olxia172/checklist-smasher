@@ -3,22 +3,22 @@ import styled from "styled-components/native";
 import { bool, string, number, shape, arrayOf, oneOfType } from "prop-types";
 import { checklistsColors } from "../constants/colors";
 import ChecklistCtas from "../components/ChecklistCtas";
-import { List } from "react-native-paper";
+import { List, Divider } from "react-native-paper";
 import ItemDoneMark from "../components/ItemDoneMark";
 import ItemRemoveButton from "../components/ItemRemoveButton";
 
 const StyledView = styled.View`
-  border-width: 1px;
-  border-style: solid;
-  border-color: ${checklistsColors.defaultColorDark};
   background-color: ${checklistsColors.defaultColorLight};
-  margin: 15px;
+  margin: 20px 0;
 `;
 
 const ChecklistContainer = ({ name, id, items }) => (
   <StyledView key={name}>
     <List.Section>
-      <List.Accordion title={name}>
+      <List.Accordion
+        title={name}
+        left={(props) => <List.Icon {...props} icon="playlist-check" />}
+      >
         {items.map(({ name, done, id }) => (
           <List.Item
             title={name}

@@ -6,6 +6,8 @@ const useGraphQL = (sessionKey) => {
     Authorization: `Bearer ${sessionKey}`,
   };
 
+  console.log("header", authHeader);
+
   return new HttpLink({
     uri: "http://localhost:3001/graphql",
     fetch,

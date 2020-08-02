@@ -6,6 +6,18 @@ import ChecklistContainer from "../components/ChecklistContainer";
 import { Button, Modal, Portal, TextInput } from "react-native-paper";
 import { basicColors } from "../constants/colors";
 import useDialogModal from "../hooks/useDialogModal";
+import { FAB } from "react-native-paper";
+import { StyleSheet } from "react-native";
+
+const styles = StyleSheet.create({
+  fab: {
+    maxWidth: "20px",
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
+});
 
 function useChecklists() {
   return useStoreData(({ checklistsStore }) => ({
@@ -29,15 +41,16 @@ function ChecklistsScreen({ navigation }) {
 
   return (
     <>
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <View key={item.name}>
+            <ChecklistContainer {...item} />
+          </View>
+        )}
+        keyExtractor={(item) => item.id}
+      />
       <View>
-        <Button
-          icon="plus"
-          mode="contained"
-          color={basicColors.white}
-          onPress={() => openDialogModal()}
-        >
-          Add Checklist
-        </Button>
         <Portal>
           <Modal
             visible={isModalOpened}
@@ -63,14 +76,11 @@ function ChecklistsScreen({ navigation }) {
           </Modal>
         </Portal>
       </View>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => (
-          <View key={item.name}>
-            <ChecklistContainer {...item} />
-          </View>
-        )}
-        keyExtractor={(item) => item.id}
+      <FAB
+        icon="plus"
+        styles={styles.fab}
+        color={basicColors.white}
+        onPress={() => openDialogModal()}
       />
     </>
   );
