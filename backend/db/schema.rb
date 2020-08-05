@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_17_152952) do
+ActiveRecord::Schema.define(version: 2020_08_05_180518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,20 +47,13 @@ ActiveRecord::Schema.define(version: 2020_05_17_152952) do
     t.date "to_do_on"
     t.boolean "done", default: false, null: false
     t.boolean "cancelled", default: false, null: false
-    t.bigint "item_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "schedule", default: {}, null: false
+    t.integer "mode", default: 1, null: false
+    t.bigint "formula_id"
     t.index ["checklist_id"], name: "index_items_on_checklist_id"
-    t.index ["item_id"], name: "index_items_on_item_id"
-  end
-
-  create_table "rules", force: :cascade do |t|
-    t.jsonb "details"
-    t.string "ruleable_type"
-    t.bigint "ruleable_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["ruleable_type", "ruleable_id"], name: "index_rules_on_ruleable_type_and_ruleable_id"
+    t.index ["formula_id"], name: "index_items_on_formula_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -74,6 +67,6 @@ ActiveRecord::Schema.define(version: 2020_05_17_152952) do
   add_foreign_key "categories", "checklists"
   add_foreign_key "checklists", "enjoyers"
   add_foreign_key "items", "checklists"
-  add_foreign_key "items", "items"
+  add_foreign_key "items", "items", column: "formula_id"
   add_foreign_key "sessions", "enjoyers"
 end
