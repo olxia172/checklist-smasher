@@ -1,11 +1,11 @@
 class ItemScheduler
   attr_reader :repeat, :every, :days, :end
-  
+
   def initialize(**args)
-    @repeat = args[:repeat] 
-    @every  = args[:every] 
-    @days   = args[:days]
-    @end    = args[:end]
+    @repeat = args[:repeat]
+    @every = args[:every]
+    @days = args[:days]
+    @end = args[:end]
   end
 
   def schedule

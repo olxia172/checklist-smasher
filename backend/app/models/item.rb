@@ -1,8 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :checklist
-  belongs_to :formula, class_name: "Item", optional: true
-
-  enum mode: { simple: 1, formula: 2 }
+  belongs_to :item_formula, optional: true
 
   validates :name, presence: true
 

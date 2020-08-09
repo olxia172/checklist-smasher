@@ -1,3 +1,3 @@
 class Category < ApplicationRecord
-  belongs_to :checklist
+  has_many :checklists
 end
