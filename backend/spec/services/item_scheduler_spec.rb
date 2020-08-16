@@ -6,7 +6,7 @@ RSpec.describe ItemScheduler do
   let!(:item) { create(:item, checklist: checklist) }
 
   describe "schedule" do
-    subject { described_class.new(base_item: item, enjoyer: enjoyer, **params).schedule }
+    subject { described_class.new(base_item: item, enjoyer: enjoyer, **params).call }
 
     context "when rest of params are empty" do
       let(:params) { {} }
