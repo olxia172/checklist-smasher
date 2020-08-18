@@ -6,11 +6,17 @@ import ChecklistCtas from "../components/ChecklistCtas";
 import { List, Divider } from "react-native-paper";
 import ItemDoneMark from "../components/ItemDoneMark";
 import ItemRemoveButton from "../components/ItemRemoveButton";
+import ItemScheduleButton from "../components/ItemScheduleButton";
 
 const StyledView = styled.View`
   background-color: ${checklistsColors.defaultColorLight};
   margin: 20px 0;
 `;
+
+const StyledCtaContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+`
 
 const ChecklistContainer = ({ name, id, items }) => (
   <StyledView key={name}>
@@ -23,7 +29,12 @@ const ChecklistContainer = ({ name, id, items }) => (
           <List.Item
             title={name}
             left={() => <ItemDoneMark done={done} id={id} />}
-            right={() => <ItemRemoveButton id={id} />}
+            right={() => (
+              <StyledCtaContainer>
+                <ItemScheduleButton id={id} />
+                <ItemRemoveButton id={id} />
+              </StyledCtaContainer>
+            )}
           />
         ))}
       </List.Accordion>

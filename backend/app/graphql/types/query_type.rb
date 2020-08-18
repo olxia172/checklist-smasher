@@ -36,7 +36,7 @@ module Types
       if user = context[:current_user]
         user&.sessions&.each(&:destroy!)
       end
-      
+
       true
     end
   end

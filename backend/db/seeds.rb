@@ -1,4 +1,4 @@
-enjoyer = Enjoyer.create!(name: 'Ola', email: 'ola@test.pl')
+enjoyer = Enjoyer.create!(name: 'Ola', email: 'ola@test.pl', password: "1234", password_confirmation: "1234")
 
 checklist1 = Checklist.create!(name: 'Checklist1', enjoyer_id: enjoyer.id)
 checklist2 = Checklist.create!(name: 'Checklist2', enjoyer_id: enjoyer.id)
