@@ -3,8 +3,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../../screens/HomeScreen";
 import ChecklistsScreen from "../../screens/ChecklistsScreen";
+import ScheduleItemScreen from "../../screens/ScheduleItemScreen";
 // import MainScreenHeader from "./src/components/MainScreenHeader";
-import { headerStyles } from "../../constants/themeConfig";
+import { userHeaderStyles } from "../../constants/themeConfig";
 
 const Stack = createStackNavigator();
 
@@ -15,14 +16,21 @@ const LoggedUserNav = () => (
         name="Home"
         component={HomeScreen}
         options={{
-          ...headerStyles,
+          ...userHeaderStyles,
         }}
       />
       <Stack.Screen
         name="Checklists"
         component={ChecklistsScreen}
         options={{
-          ...headerStyles,
+          ...userHeaderStyles,
+        }}
+      />
+      <Stack.Screen
+        name="ScheduleItem"
+        component={ScheduleItemScreen}
+        options={{
+          ...userHeaderStyles,
         }}
       />
     </Stack.Navigator>
