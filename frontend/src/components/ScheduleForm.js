@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { bool, string, number, oneOfType } from "prop-types";
+import { string, func } from "prop-types";
 import { View, Text, TextInput, FlatList, ScrollView } from "react-native";
 import { Picker } from "react-native";
 import {
@@ -18,6 +18,7 @@ import MultiSelectField from "./MultiSelectField"
 
 const Container = styled.View`
   padding: 30px 20px;
+  margin-bottom: 30px;
 `
 
 const FlexContainer = styled.View`
@@ -54,15 +55,15 @@ const InputText = styled.Text`
   margin-right: 10px;
 `
 
-const ScheduleForm = ({ id }) => {
-  const [repeat, setRepeat] = useState('daily')
-  const [every, setEvery] = useState("")
-  const [days, setDays] = useState([])
-  const [daysOfMonth, setDaysOfMonth] = useState([])
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState(new Date())
-  const [occurencesCount, setOccurencesCount] = useState("")
-  const [endOption, setEndOption] = useState("never")
+const ScheduleForm = ({ id, onFormSubmit }) => {
+  const [repeat, setRepeat] = useState('daily');
+  const [every, setEvery] = useState("");
+  const [days, setDays] = useState([]);
+  const [daysOfMonth, setDaysOfMonth] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState();
+  const [occurencesCount, setOccurencesCount] = useState("");
+  const [endOption, setEndOption] = useState("never");
 
   const handleDaysChange = (option) => setDays((prevDays) => {
     const index = prevDays.indexOf(option);
@@ -75,6 +76,18 @@ const ScheduleForm = ({ id }) => {
 
     return [...prevDays]
   })
+
+  const formValues = {
+    repeat,
+    startDate,
+    every,
+    days,
+    endDate,
+    occurencesCount,
+    daysOfMonth,
+  }
+
+  console.log(formValues);
 
   const handleDaysOfMonthChange = (option) => setDaysOfMonth((prevDays) => {
     const index = prevDays.indexOf(option);
@@ -131,12 +144,16 @@ const ScheduleForm = ({ id }) => {
           </FlexWrapper>
         }
       </Container>
+      <Button icon="calendar-arrow-right" mode="contained" onPress={() => onFormSubmit(formValues)} contentStyle={{ paddingVertical: 16 }}>
+        Schedule
+      </Button>
     </ScrollView>
   );
 }
 
 ScheduleForm.propTypes = {
   id: string.isRequired,
+  onFormSubmit: func.isRequired,
 };
 
 export default ScheduleForm;

@@ -1,9 +1,10 @@
 import gql from "graphql-tag";
+import { toString } from "../../helpers/dateHelpers"
 
 export default function scheduleItem(itemId, scheduleData) {
   return({
       query: gql`
-        mutation scheduleItem($input, ScheduleItemMutationInput!)!) {
+        mutation scheduleItem($input: ScheduleItemMutationInput!) {
           scheduleItem(input: $input) {
             item {
               id
@@ -16,11 +17,11 @@ export default function scheduleItem(itemId, scheduleData) {
         input: {
           id: itemId,
           scheduleData: {
-            startDate: scheduleData.startDate,
+            startDate: toString(scheduleData.startDate),
             repeat: scheduleData.repeat,
             every: Number(scheduleData.every) || 1,
             days: scheduleData.days,
-            endDate: scheduleData.endDate,
+            endDate: toString(scheduleData.endDate),
             occurencesCount: Number(scheduleData.occurencesCount),
             daysOfMonth: scheduleData.daysOfMonth ? scheduleData.daysOfMonth.map((el) => Number(el)) : [],
           },

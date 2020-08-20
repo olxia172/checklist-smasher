@@ -25,13 +25,14 @@ const ChecklistContainer = ({ name, id, items }) => (
         title={name}
         left={(props) => <List.Icon {...props} icon="playlist-check" />}
       >
-        {items.map(({ name, done, id }) => (
+        {items.map(({ name, done, id, isScheduled }) => (
           <List.Item
+            key={id}
             title={name}
             left={() => <ItemDoneMark done={done} id={id} />}
             right={() => (
               <StyledCtaContainer>
-                <ItemScheduleButton id={id} />
+                <ItemScheduleButton id={id} isScheduled={isScheduled} />
                 <ItemRemoveButton id={id} />
               </StyledCtaContainer>
             )}

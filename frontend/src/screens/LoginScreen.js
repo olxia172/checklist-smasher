@@ -66,7 +66,7 @@ const LoginScreen = () => {
             icon="login"
             onPress={handleLogin}
             mode="contained"
-            style={{ paddingVertical: 16 }}
+            contentStyle={{ paddingVertical: 16 }}
           >
             Login
           </Button>

@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import { bool, string, number, oneOfType } from "prop-types";
+import { bool, string } from "prop-types";
 import { useStoreData } from "../hooks/useStoreData";
 import { View } from "react-native";
-import {
-  Modal,
-  Portal,
-  Button,
-  IconButton,
-} from "react-native-paper";
-import useDialogModal from "../hooks/useDialogModal";
-import { basicColors } from "../constants/colors";
-import ScheduleForm from "./ScheduleForm"
+import { IconButton } from "react-native-paper";
+import { checklistsColors } from "../constants/colors";
 import { useNavigation } from '@react-navigation/native';
 
 function useChecklists() {
@@ -19,22 +12,22 @@ function useChecklists() {
   }));
 }
 
-const ItemScheduleButton = ({ id }) => {
+const ItemScheduleButton = ({ id, isScheduled }) => {
   const { scheduleItem } = useChecklists();
-  const { isModalOpened, openDialogModal, closeDialogModal } = useDialogModal();
   const navigation = useNavigation();
 
   const handlePress = () => navigation.navigate("ScheduleItem", { itemId: id })
 
   return (
     <View>
-      <IconButton icon="clock-outline" onPress={handlePress} />
+      <IconButton icon="clock-outline" onPress={handlePress} color={isScheduled ? checklistsColors.defaultColorDark : checklistsColors.black} />
     </View>
   );
 }
 
 ItemScheduleButton.propTypes = {
   id: string.isRequired,
+  isScheduled: bool.isRequired,
 };
 
 export default ItemScheduleButton;

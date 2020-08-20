@@ -11,8 +11,7 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   fab: {
-    maxWidth: "20px",
-    position: "absolute",
+    position: 'absolute',
     margin: 16,
     right: 0,
     bottom: 0,
@@ -41,6 +40,14 @@ function ChecklistsScreen({ navigation }) {
 
   return (
     <>
+      <Button
+        icon="plus"
+        color={basicColors.primary}
+        style={{ paddingVertical: 8 }}
+        onPress={() => openDialogModal()}
+      >
+        New checklist
+      </Button>
       <FlatList
         data={data}
         renderItem={({ item }) => (
@@ -50,38 +57,30 @@ function ChecklistsScreen({ navigation }) {
         )}
         keyExtractor={(item) => item.id}
       />
-      <View>
-        <Portal>
-          <Modal
-            visible={isModalOpened}
-            onDismiss={closeDialogModal}
-            contentContainerStyle={{ backgroundColor: basicColors.white }}
-          >
-            <TextInput
-              label="New checklist name"
-              mode="outlined"
-              style={{
-                fontSize: 16,
-                paddingHorizontal: 20,
-                paddingVertical: 20,
-              }}
-              value={checklistName}
-              onChangeText={(text) => {
-                setChecklistName(text);
-              }}
-            />
-            <Button icon="plus" mode="contained" onPress={handleAddChecklist}>
-              Add Checklist
-            </Button>
-          </Modal>
-        </Portal>
-      </View>
-      <FAB
-        icon="plus"
-        styles={styles.fab}
-        color={basicColors.white}
-        onPress={() => openDialogModal()}
-      />
+      <Portal>
+        <Modal
+          visible={isModalOpened}
+          onDismiss={closeDialogModal}
+          contentContainerStyle={{ backgroundColor: basicColors.white }}
+        >
+          <TextInput
+            label="New checklist name"
+            mode="outlined"
+            style={{
+              fontSize: 16,
+              paddingHorizontal: 20,
+              paddingVertical: 20,
+            }}
+            value={checklistName}
+            onChangeText={(text) => {
+              setChecklistName(text);
+            }}
+          />
+          <Button icon="plus" mode="contained" onPress={handleAddChecklist} contentStyle={{ paddingVertical: 16 }}>
+            Add Checklist
+          </Button>
+        </Modal>
+      </Portal>
     </>
   );
 }

@@ -27,7 +27,7 @@ export default class ItemStore {
 
   @action.bound
   scheduleItem(itemId, scheduleData) {
-    makePromise(
+    return makePromise(
       execute(
         useGraphQL(this.root.sessionStore.sessionKey),
         scheduleItem(itemId, scheduleData)

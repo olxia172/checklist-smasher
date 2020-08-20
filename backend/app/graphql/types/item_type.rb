@@ -5,5 +5,10 @@ module Types
     field :done, Boolean, null: true
     field :cancelled, Boolean, null: true
     field :checklist, Types::ChecklistType, null: false
+    field :is_scheduled, Boolean, null: false
+
+    def is_scheduled
+      object.item_formula.present?
+    end
   end
 end

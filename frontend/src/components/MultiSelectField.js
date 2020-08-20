@@ -10,16 +10,16 @@ const MultiSelectField = ({ options, onChange, numOfColumns, selectedOptions }) 
     extraData={selectedOptions}
     keyExtractor={(item) => item}
     renderItem={({ item }) => {
-      const isSelectedOption = selectedOptions.includes(item);
+      const isSelectedOption = selectedOptions.includes(item.value);
 
       return (
         <Button
           key={[item, isSelectedOption]}
           mode={isSelectedOption ? "contained" : "outlined"}
           style={{ marginRight: 10, marginBottom: 10 }}
-          onPress={() => onChange(item)}
+          onPress={() => onChange(item.value)}
         >
-          {item}
+          {item.label}
           {isSelectedOption}
         </Button>
       )

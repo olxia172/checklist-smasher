@@ -69,7 +69,7 @@ function ChecklistCtas({ checklistId }) {
               setItemName(text);
             }}
           />
-          <Button icon="plus" mode="contained" onPress={handleAddItem}>
+        <Button icon="plus" mode="contained" onPress={handleAddItem} contentStyle={{ paddingVertical: 16 }}>
             Add item
           </Button>
         </Modal>

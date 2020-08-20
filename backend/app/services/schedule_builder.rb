@@ -76,6 +76,6 @@ class ScheduleBuilder
   end
 
   def set_end_date
-    end_date ? Time.parse(end_date) : nil
+    end_date.present? ? Time.parse(end_date) : nil
   end
 end

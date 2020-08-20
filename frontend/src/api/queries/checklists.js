@@ -10,9 +10,9 @@ export const getChecklists = {
           id
           name
           done
+          isScheduled
         }
       }
     }
   `,
 };
-
