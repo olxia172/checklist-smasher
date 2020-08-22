@@ -51,8 +51,6 @@ export default class UserStore {
   async logoutUser() {
     const key = await getToken();
 
-    console.log("key", key);
-
     makePromise(execute(useGraphQL(key), logoutEnjoyer)).finally(() => {
       this.userName = null;
       this.userEmail = null;

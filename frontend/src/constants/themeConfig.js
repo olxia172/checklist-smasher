@@ -13,6 +13,16 @@ const headerStyles = {
   },
 };
 
+const userHeaderStyles = {
+  headerStyle: {
+    backgroundColor: basicColors.primary,
+  },
+  headerTintColor: basicColors.white,
+  headerTitleStyle: {
+    fontWeight: "bold",
+  },
+};
+
 const theme = {
   ...DefaultTheme,
   roundness: 0,
@@ -23,4 +33,4 @@ const theme = {
   },
 };
 
-export { headerStyles, theme };
+export { headerStyles, theme, userHeaderStyles };

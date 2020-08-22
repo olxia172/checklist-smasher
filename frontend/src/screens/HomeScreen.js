@@ -1,6 +1,25 @@
 import React, { useEffect } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text } from "react-native";
 import { useStoreData } from "../hooks/useStoreData";
+import { Title, Button } from 'react-native-paper';
+import styled from "styled-components/native";
+
+const Container = styled.View`
+  height: 100%;
+`
+
+const TitleWrapper = styled.View`
+  padding: 10px 0;
+  margin: 0 auto;
+`
+
+const ChecklistsButtonWrapper = styled.View`
+  margin: 20px;
+`
+
+const LogoutButtonWrapper = styled.View`
+  margin-top: auto;
+`
 
 function useData() {
   return useStoreData(({ checklistsStore, userStore }) => ({
@@ -20,14 +39,24 @@ const HomeScreen = ({ navigation }) => {
   });
 
   return (
-    <View>
-      <Text>You have {checklistsCount} checklists! Check them out!</Text>
-      <Button
-        title="Go to checklists"
-        onPress={() => navigation.navigate("Checklists")}
-      />
-      <Button title="Logout" onPress={handleLogout} />
-    </View>
+    <Container>
+      <TitleWrapper>
+        <Title>You have {checklistsCount} checklists! Check them out!</Title>
+      </TitleWrapper>
+      <ChecklistsButtonWrapper>
+        <Button
+          icon="progress-check"
+          mode="contained"
+          contentStyle={{ paddingVertical: 16 }}
+          onPress={() => navigation.navigate("Checklists")}
+        >
+          Go to checklists
+        </Button>
+      </ChecklistsButtonWrapper>
+      <LogoutButtonWrapper>
+        <Button onPress={handleLogout}>Logout</Button>
+      </LogoutButtonWrapper>
+    </Container>
   );
 };
 
