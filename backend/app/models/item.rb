@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
   belongs_to :checklist
   belongs_to :schedule, optional: true
+  has_many :events, as: :eventable
 
   validates :name, presence: true
 
