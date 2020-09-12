@@ -1,6 +1,6 @@
 class Schedule < ApplicationRecord
   belongs_to :enjoyer
-  has_many :item_formulas
+  has_many :items
 
   store_accessor :rules_data, :payload, :schedule_data
 
