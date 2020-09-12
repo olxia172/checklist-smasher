@@ -8,7 +8,7 @@ RSpec.describe 'ToggleDoneItemMutation', type: :graphql do
   subject { schema.execute(queries.toggle_done_item, variables) }
 
   describe 'when item should be marked as done' do
-    let!(:item) { create(:item, done: false) }
+    let!(:item) { create(:item) }
     let(:variables) { { id: item.id, done: true } }
 
     it 'should be successful' do
@@ -16,7 +16,7 @@ RSpec.describe 'ToggleDoneItemMutation', type: :graphql do
     end
 
     it 'should update item' do
-      expect { subject }.to change { item.reload.done }.from(false).to(true)
+      expect { subject }.to change { item.reload.events.count }.by(1)
     end
 
     it 'should return proper response' do
@@ -27,7 +27,8 @@ RSpec.describe 'ToggleDoneItemMutation', type: :graphql do
   end
 
   describe 'when item should be marked as NOT done' do
-    let!(:item1) { create(:item, done: true) }
+    let!(:item1) { create(:item) }
+    let!(:event) { create(:event, :item_done, eventable: item1) }
     let(:variables) { { id: item1.id, done: false } }
 
     it 'should be successful' do
@@ -35,7 +36,7 @@ RSpec.describe 'ToggleDoneItemMutation', type: :graphql do
     end
 
     it 'should update item' do
-      expect { subject }.to change { item1.reload.done }.from(true).to(false)
+      expect { subject }.to change { item1.reload.events.count }.by(-1)
     end
 
     it 'should return proper response' do
@@ -47,6 +48,10 @@ RSpec.describe 'ToggleDoneItemMutation', type: :graphql do
 
   describe 'when item not found' do
     let(:variables) { { id: 123456, done: false } }
+
+    it 'should not create event' do
+      expect { subject }.to change { Event.count }.by(0)
+    end
 
     it 'should be successful' do
       expect(subject).not_to be_successful_query

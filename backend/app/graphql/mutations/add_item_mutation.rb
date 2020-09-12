@@ -12,10 +12,9 @@ module Mutations
       #         "You need to authenticate to perform this action"
       # end
       #
-      #
-      enjoyer = context[:current_user]
-      checklist = enjoyer&.checklists&.find_by(id: checklist_id)
-      item = checklist&.items&.new(name: name)
+
+      checklist = context[:current_user].checklists.find(checklist_id)
+      item = checklist.items.new(name: name)
 
       if item.save
         { item: item, errors: [] }

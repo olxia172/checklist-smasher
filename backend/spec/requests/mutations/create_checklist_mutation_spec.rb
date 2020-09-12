@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe 'CreateChecklistMutation', type: :graphql do
   let!(:enjoyer) { create(:enjoyer) }
-  let(:schema)  { use_schema(ChecklistSmasherSchema, context: {}) }
+  let(:schema)  { use_schema(ChecklistSmasherSchema, context: { current_user: enjoyer }) }
   let(:queries) { graphql_fixture("createChecklist.graphql") }
 
   subject { schema.execute(queries.create_checklist, variables) }

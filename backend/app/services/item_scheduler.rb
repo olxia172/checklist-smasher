@@ -20,11 +20,8 @@ class ItemScheduler
     return false unless errors.empty?
 
     begin
-      formula = checklist.item_formulas.create!(
-        name: base_item.name,
-        schedule_id: schedule.id
-      )
-      base_item.update(item_formula: formula)
+      base_item.update(schedule_id: schedule.id)
+      base_item.events.create(action: :item_scheduled)
     rescue
       @errors << "Something went wrong"
       @errors

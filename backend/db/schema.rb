@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2020_09_12_121419) do
   end
 
   create_table "events", force: :cascade do |t|
-    t.integer "action", null: false
+    t.string "action", null: false
     t.string "eventable_type"
     t.bigint "eventable_id"
     t.datetime "created_at", precision: 6, null: false
@@ -58,7 +58,9 @@ ActiveRecord::Schema.define(version: 2020_09_12_121419) do
     t.bigint "checklist_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "schedule_id"
     t.index ["checklist_id"], name: "index_items_on_checklist_id"
+    t.index ["schedule_id"], name: "index_items_on_schedule_id"
   end
 
   create_table "schedules", force: :cascade do |t|

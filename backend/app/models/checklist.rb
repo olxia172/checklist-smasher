@@ -2,5 +2,9 @@ class Checklist < ApplicationRecord
   belongs_to :enjoyer
   belongs_to :category, optional: true
   has_many :items
-  has_many :item_formulas
+  has_many :events, as: :eventable, dependent: :destroy
+
+  after_create do
+    events.create(action: Event::CHECKLIST_ADDED)
+  end
 end

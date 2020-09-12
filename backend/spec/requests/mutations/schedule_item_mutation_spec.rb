@@ -17,8 +17,7 @@ RSpec.describe 'CreateChecklistMutation', type: :graphql do
   end
 
   it 'should create checklist' do
-    expect { subject }.to change { ItemFormula.count }.by(1)
-                      .and change { Schedule.count }.by(1)
+    expect { subject }.to change { Schedule.count }.by(1)
   end
 
   it 'should return proper response' do

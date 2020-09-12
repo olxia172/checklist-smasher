@@ -12,8 +12,7 @@ RSpec.describe ItemScheduler do
       let(:params) { {} }
 
       it do
-        expect { subject }.to change { ItemFormula.count }.by(0)
-                       .and change { Schedule.count }.by(0)
+        expect { subject }.to change { Schedule.count }.by(0)
       end
     end
 
@@ -22,8 +21,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'daily' } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -38,8 +38,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'daily', every: 2 } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -54,8 +55,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'daily', start_date: (Date.today + 3.days).to_s } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -70,8 +72,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'daily', days: ['monday', 'thursday'] } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -86,8 +89,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'daily', end_date: (Date.today + 3.days).to_s } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -102,8 +106,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'daily', occurences_count: 4 } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -118,8 +123,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'daily', days_of_month: [15, 23] } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -136,8 +142,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'weekly' } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -152,8 +159,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'weekly', every: 2 } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -168,8 +176,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'weekly', start_date: (Date.today + 2.days).to_s } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -184,8 +193,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'weekly', occurences_count: 3 } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -200,8 +210,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'weekly', days: ['monday', 'thursday'] } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -216,8 +227,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'weekly', days_of_month: [1, 15] } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -232,8 +244,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'weekly', end_date: (Date.today + 29.days).to_s } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -250,8 +263,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'monthly' } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -266,8 +280,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'monthly', every: 3 } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -282,8 +297,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'monthly', occurences_count: 3 } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do
@@ -298,8 +314,9 @@ RSpec.describe ItemScheduler do
         let(:params) { { repeat: 'monthly', days_of_month: [1, 15], every: 3 } }
 
         it do
-          expect { subject }.to change { ItemFormula.count }.by(1)
+          expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
+                         .and change { item.reload.schedule_id }
         end
 
         it 'should save correct schedule' do

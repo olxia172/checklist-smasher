@@ -6,5 +6,7 @@ class CreateSchedules < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+
+    add_reference :items, :schedule, index: true
   end
 end
