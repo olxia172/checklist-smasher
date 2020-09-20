@@ -29,4 +29,10 @@ class ChecklistSmasherSchema < GraphQL::Schema
     message = I18n.t('errors.not_found', record_type: err.model)
     GraphQL::ExecutionError.new(message)
   end
+
+  rescue_from ActiveRecord::RecordInvalid do |err, _obj, _args, _ctx, _field|
+    record_type = err.record.class.to_s
+    message = I18n.t('errors.record_invalid', record_type: record_type, errors: err.record.errors.full_messages.join(", "))
+    GraphQL::ExecutionError.new(message)
+  end
 end
