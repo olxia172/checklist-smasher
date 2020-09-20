@@ -7,6 +7,7 @@ module Types
     field :create_checklist, mutation: Mutations::CreateChecklistMutation
 
     field :register, mutation: Mutations::RegisterEnjoyerMutation
+    field :login, mutation: Mutations::LoginMutation, description: "Allows user to login"
 
     field :schedule_item, mutation: Mutations::ScheduleItemMutation
   end
