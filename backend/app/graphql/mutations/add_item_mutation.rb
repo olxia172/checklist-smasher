@@ -7,12 +7,6 @@ module Mutations
     field :errors, [String], null: false
 
     def resolve(name:, checklist_id:)
-      # if context[:current_user].nil?
-      #   raise GraphQL::ExecutionError,
-      #         "You need to authenticate to perform this action"
-      # end
-      #
-
       checklist = context[:current_user].checklists.find(checklist_id)
       item = checklist.items.new(name: name)
 

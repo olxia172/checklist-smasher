@@ -16,4 +16,18 @@ RSpec.describe 'checklists', type: :graphql do
       Checklist.all.map { |item| { "name" => item.name } }
     ))
   end
+
+  context "when user is not logged in" do
+    let(:schema)  { use_schema(ChecklistSmasherSchema, context: {}) }
+
+    subject { schema.execute(queries.checklists) }
+
+    it 'should return proper response' do
+      expect(subject.dig("data")).to eq(nil)
+
+      errors = subject.dig("errors")
+      expect(errors.size).to eq(1)
+      expect(errors.first.dig("message")).to eq("Not authorized to access Query.checklists")
+    end
+  end
 end

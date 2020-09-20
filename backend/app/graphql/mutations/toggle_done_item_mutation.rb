@@ -8,11 +8,6 @@ module Mutations
     field :errors, [String], null: false
 
     def resolve(id:, done:, date: Date.today.to_s)
-      # if context[:current_user].nil?
-      #   raise GraphQL::ExecutionError,
-      #         "You need to authenticate to perform this action"
-      # end
-      #
       item = Item.find(id)
       if done
         item.events.create(action: Event::ITEM_MARKED_DONE)
