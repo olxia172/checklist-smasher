@@ -12,6 +12,13 @@ class ChecklistSmasherSchema < GraphQL::Schema
 
   use GraphQL::Execution::Errors
 
+  use GraphQL::Guard.new(
+    policy_object: GraphqlPolicy,
+    not_authorized: ->(type, field) do
+      GraphQL::ExecutionError.new("Not authorized to access #{type}.#{field}")
+    end
+  )
+
   # err is the error that was raised during field execution, then rescued
   # obj is the object which was having a field resolved against it
   # args is the the Hash of arguments passed to the resolver

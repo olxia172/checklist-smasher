@@ -27,6 +27,7 @@ gem 'graphiql-rails', group: :development
 gem 'sprockets', '~> 3'
 gem 'graphql-extras'
 gem 'graphql-errors'
+gem 'graphql-guard'
 gem 'jwt'
 
 group :development, :test do
