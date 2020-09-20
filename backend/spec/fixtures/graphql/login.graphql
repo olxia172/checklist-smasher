@@ -1,5 +1,5 @@
-mutation login($identifier: String!, $password: String!) {
-  login(input: { identifier: $identifier, password: $password }) {
+mutation login($input: LoginMutationInput!) {
+  login(input: $input) {
     key
   }
 }

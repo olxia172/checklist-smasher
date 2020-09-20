@@ -1,6 +1,5 @@
-mutation toggleDoneItem($id: ID!, $done: Boolean!) {
-  toggleDoneItem(input: { id: $id, done: $done }) {
-    errors
+mutation toggleDoneItem($input: ToggleDoneItemMutationInput!) {
+  toggleDoneItem(input: $input) {
     item {
       id
       done

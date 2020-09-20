@@ -2,10 +2,13 @@
 require 'rails_helper'
 
 RSpec.describe 'RemoveItemMutation', type: :graphql do
-  let!(:item) { create(:item) }
-  let(:test_query) { graphql_fixture("removeItem.graphql").remove_item }
+  let!(:enjoyer) { create(:enjoyer) }
+  let(:schema)  { use_schema(ChecklistSmasherSchema, context: { current_user: enjoyer }) }
 
-  subject { schema.execute(test_query, variables) }
+  let!(:item) { create(:item) }
+  let(:query) { graphql_fixture("removeItem.graphql") }
+
+  subject { schema.execute(query.remove_item, variables) }
 
   describe 'when success' do
     let(:variables) { { id: item.id } }
