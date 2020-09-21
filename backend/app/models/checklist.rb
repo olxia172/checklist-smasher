@@ -6,7 +6,9 @@ class Checklist < ApplicationRecord
 
   validates :name, presence: true
 
-  after_create do
+  after_create :register_creation
+
+  def register_creation
     events.create(action: Event::CHECKLIST_ADDED)
   end
 end

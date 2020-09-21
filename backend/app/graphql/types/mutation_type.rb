@@ -8,6 +8,6 @@ module Types
     field :add_item, mutation: Mutations::AddItemMutation, description: "Allows to add item to checklist"
     field :toggle_done_item, mutation: Mutations::ToggleDoneItemMutation, description: "Allows to toggle item as done/not done"
     field :remove_item, mutation: Mutations::RemoveItemMutation, description: "Allows to permanently remove item"
-    field :schedule_item, mutation: Mutations::ScheduleItemMutation
+    field :schedule_item, mutation: Mutations::ScheduleItemMutation, description: "Allows to schedule item"
   end
 end

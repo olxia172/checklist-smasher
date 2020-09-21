@@ -5,11 +5,13 @@ class Item < ApplicationRecord
 
   validates :name, presence: true
 
-  after_create do
-    events.create(action: Event::ITEM_ADDED)
-  end
-
   # default_scope { order(done: :asc, updated_at: :desc) }
+
+  after_create :register_creation
+
+  def register_creation
+    events.create(action: Event::CHECKLIST_ADDED)
+  end
 
   def schedule_data(**args)
     ItemScheduler.new(**args).schedule

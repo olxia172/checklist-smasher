@@ -1,5 +1,5 @@
-mutation scheduleItem($id: ID!, $scheduleData: ScheduleDataAttributes!) {
-  scheduleItem(input: { id: $id, scheduleData: $scheduleData }) {
+mutation scheduleItem($input: ScheduleItemMutationInput!) {
+  scheduleItem(input: $input) {
     item {
       id
     }

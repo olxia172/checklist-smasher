@@ -20,6 +20,7 @@ RSpec.describe 'AddItemMutation', type: :graphql do
 
       it 'should create item' do
         expect { subject }.to change { Item.count }.by(1)
+                          .and change { Event.count }.by(1)
       end
 
       it 'should return proper response' do

@@ -5,6 +5,14 @@ RSpec.describe ItemScheduler do
   let!(:checklist) { create(:checklist, enjoyer: enjoyer) }
   let!(:item) { create(:item, checklist: checklist) }
 
+  before(:each) do
+    travel_to Time.zone.local(2020, 9, 21, 12, 00, 00)
+  end
+
+  after(:each) do
+    travel_back
+  end
+
   describe "schedule" do
     subject { described_class.new(base_item: item, enjoyer: enjoyer, **params).call }
 
@@ -219,7 +227,7 @@ RSpec.describe ItemScheduler do
           subject
           schedule = enjoyer.reload.schedules.last
           sch = IceCube::Schedule.from_hash(schedule.schedule_data)
-          expect(sch.occurrences(Date.today + 8.days).length).to eq(2)
+          expect(sch.occurrences(Date.today + 8.days).length).to eq(3)
         end
       end
 

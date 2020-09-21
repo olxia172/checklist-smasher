@@ -15,6 +15,10 @@ RSpec.describe 'RegisterEnjoyerMutation', type: :graphql do
         expect(subject).to be_successful_query
       end
 
+      it 'create enjoyer' do
+        expect { subject }.to change { Enjoyer.count }.by(1)
+      end
+
       it "should return proper response" do
         expect(subject.dig("data", "register", "key").present?).to eq(true)
       end

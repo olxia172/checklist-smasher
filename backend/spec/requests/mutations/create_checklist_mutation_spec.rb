@@ -19,6 +19,7 @@ RSpec.describe 'CreateChecklistMutation', type: :graphql do
 
       it 'should create checklist' do
         expect { subject }.to change { enjoyer.reload.checklists.count }.by(1)
+                          .and change { Event.count }.by(1)
       end
 
       it 'should return proper response' do
