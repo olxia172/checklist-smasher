@@ -3,15 +3,12 @@ module Mutations
     argument :name, String, required: true
 
     field :checklist, Types::ChecklistType, null: true
-    field :errors, [String], null: false
 
     def resolve(name:)
-      checklist = context[:current_user].checklists.new(name: name, enjoyer: Enjoyer.first)
+      checklist = context[:current_user].checklists.new(name: name)
 
-      if checklist&.save
-        { checklist: checklist, errors: [] }
-      else
-        { errors: checklist.errors.full_messages }
+      if checklist.save!
+        { checklist: checklist }
       end
     end
   end

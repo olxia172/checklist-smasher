@@ -3,7 +3,6 @@ module Mutations
     argument :identifier, String, required: true
     argument :password, String, required: true
 
-    field :errors, [String], null: true
     field :key, String, null: true
 
     def resolve(identifier:, password:)
@@ -13,7 +12,7 @@ module Mutations
         raise GraphQL::ExecutionError.new("User not found")
       end
 
-      if user&.authenticate(password)
+      if user.authenticate(password)
         {
           key: user.sessions.create.key
         }

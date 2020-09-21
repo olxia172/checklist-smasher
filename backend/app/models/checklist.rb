@@ -4,6 +4,8 @@ class Checklist < ApplicationRecord
   has_many :items
   has_many :events, as: :eventable, dependent: :destroy
 
+  validates :name, presence: true
+
   after_create do
     events.create(action: Event::CHECKLIST_ADDED)
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe 'CreateChecklistMutation', type: :graphql do
+RSpec.describe 'ScheduleItemMutation', type: :graphql do
   let!(:enjoyer) { create(:enjoyer) }
   let!(:checklist) { create(:checklist, enjoyer: enjoyer) }
   let!(:item) { create(:item, checklist: checklist) }
