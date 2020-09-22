@@ -1,5 +1,7 @@
 module Types
   class ItemType < Types::BaseObject
+    description "An item of checklist"
+
     field :id, ID, null: false
     field :name, String, null: false
     field :done, Boolean, null: false
