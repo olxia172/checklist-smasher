@@ -8,11 +8,6 @@ module Mutations
     field :schedule, Types::ScheduleType, null: true
 
     def resolve(id:, schedule_data:)
-      # if context[:current_user].nil?
-      #   raise GraphQL::ExecutionError,
-      #         "You need to authenticate to perform this action"
-      # end
-      #
       item = Item.find(id)
       scheduler = ItemScheduler.new(base_item: item, enjoyer: context[:current_user], **schedule_data)
 

@@ -42,9 +42,10 @@ function ChecklistsScreen({ navigation }) {
     <>
       <Button
         icon="plus"
-        color={basicColors.primary}
+        color={basicColors.primaryLight}
         style={{ paddingVertical: 8 }}
         onPress={() => openDialogModal()}
+        mode="contained"
       >
         New checklist
       </Button>

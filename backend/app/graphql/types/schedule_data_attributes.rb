@@ -1,6 +1,7 @@
 module Types
   class ScheduleDataAttributes < Types::BaseInputObject
     description "Attributes for creating or updating item schedule"
+
     argument :start_date, String, required: false
     argument :repeat, String, required: true
     argument :every, Int, required: false

@@ -1,7 +1,7 @@
 import { observable, action } from "mobx";
 import { execute, makePromise } from "apollo-link";
 import { getCurrentUser as getCurrentEnjoyer } from "../api/queries/getCurrentUser";
-import { loginEnjoyer } from "../api/queries/loginEnjoyer";
+import { loginEnjoyer } from "../api/mutations/loginEnjoyer";
 import { logoutEnjoyer } from "../api/queries/logoutEnjoyer";
 import useGraphQL from "../hooks/useGraphQL";
 import { saveToken, removeToken, getToken } from "../helpers/tokenHelpers";
@@ -40,8 +40,8 @@ export default class UserStore {
   @action.bound
   loginUser(email, password) {
     makePromise(execute(useGraphQL(null), loginEnjoyer(email, password)))
-      .then(({ data }) => {
-        this.save(data.login);
+      .then(({ data: { login: { key } } }) => {
+        this.save(key);
       })
       .catch((error) => (this.errors = error))
       .finally(() => this.getCurrentUser());

@@ -5,7 +5,6 @@ export default function addItemToChecklist(itemName, checklistId) {
       query: gql`
         mutation AddItemMutation($input: AddItemMutationInput!) {
           addItem(input: $input) {
-            errors
             item {
               id
               name

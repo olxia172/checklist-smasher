@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_10_193718) do
+ActiveRecord::Schema.define(version: 2020_09_12_121419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2020_08_10_193718) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "label"
+    t.string "icon_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_categories_on_name"
@@ -34,40 +35,39 @@ ActiveRecord::Schema.define(version: 2020_08_10_193718) do
   end
 
   create_table "enjoyers", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "password_digest", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "password_digest", default: "", null: false
+    t.index ["email"], name: "index_enjoyers_on_email"
+    t.index ["name"], name: "index_enjoyers_on_name"
   end
 
-  create_table "item_formulas", force: :cascade do |t|
-    t.string "name", null: false
-    t.bigint "checklist_id", null: false
-    t.bigint "schedule_id", null: false
-    t.boolean "cancelled", default: false
+  create_table "events", force: :cascade do |t|
+    t.string "action", null: false
+    t.string "eventable_type"
+    t.bigint "eventable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["checklist_id"], name: "index_item_formulas_on_checklist_id"
-    t.index ["schedule_id"], name: "index_item_formulas_on_schedule_id"
+    t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable_type_and_eventable_id"
   end
 
   create_table "items", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "checklist_id", null: false
-    t.boolean "done", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "item_formula_id"
+    t.bigint "schedule_id"
     t.index ["checklist_id"], name: "index_items_on_checklist_id"
-    t.index ["item_formula_id"], name: "index_items_on_item_formula_id"
+    t.index ["schedule_id"], name: "index_items_on_schedule_id"
   end
 
   create_table "schedules", force: :cascade do |t|
     t.jsonb "rules_data", default: {}, null: false
+    t.bigint "enjoyer_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "enjoyer_id", null: false
     t.index ["enjoyer_id"], name: "index_schedules_on_enjoyer_id"
   end
 
@@ -80,9 +80,7 @@ ActiveRecord::Schema.define(version: 2020_08_10_193718) do
   end
 
   add_foreign_key "checklists", "enjoyers"
-  add_foreign_key "item_formulas", "checklists"
-  add_foreign_key "item_formulas", "schedules"
   add_foreign_key "items", "checklists"
-  add_foreign_key "items", "item_formulas"
+  add_foreign_key "schedules", "enjoyers"
   add_foreign_key "sessions", "enjoyers"
 end

@@ -1,5 +1,5 @@
-mutation createChecklist($name: String) {
-  createChecklist(input: { name: $name }) {
+mutation createChecklist($input: CreateChecklistMutationInput!) {
+  createChecklist(input: $input) {
     checklist {
       id
       name

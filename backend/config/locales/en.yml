@@ -1,3 +1,4 @@
 en:
   errors:
     not_found: 'Sorry! %{record_type} not found'
+    record_invalid: 'Sorry! %{record_type} cannot be saved, because of invalid data: %{errors}'

@@ -1,0 +1,5 @@
+mutation login($input: LoginMutationInput!) {
+  login(input: $input) {
+    key
+  }
+}

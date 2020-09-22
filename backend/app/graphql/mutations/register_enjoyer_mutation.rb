@@ -6,21 +6,14 @@ module Mutations
     argument :email, String, required: true
     argument :password, String, required: true
 
-    field :session_key, String, null: true
-    field :errors, [String], null: true
+    field :key, String, null: true
 
     def resolve(name:, email:, password:)
       enjoyer = Enjoyer.new(name: name, email: email, password: password)
 
-      if enjoyer.save
-        session = enjoyer.sessions.create
-
+      if enjoyer.save!
         {
-          session_key: session&.key
-        }
-      else
-        {
-          errors: enjoyer.errors.full_messages
+          key: enjoyer.sessions.create
         }
       end
     end

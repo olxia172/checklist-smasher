@@ -5,7 +5,6 @@ export default function createChecklist(checklistName) {
       query: gql`
         mutation CreateChecklistMutation($input: CreateChecklistMutationInput!) {
           createChecklist(input: $input) {
-            errors
             checklist {
               id
               name

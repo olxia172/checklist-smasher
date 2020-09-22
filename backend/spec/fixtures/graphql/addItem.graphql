@@ -1,5 +1,8 @@
-mutation addItem($name: String!, $checklistId: ID!) {
-  addItem(input: { name: $name, checklistId: $checklistId }) {
-    item { id }
+mutation addItem($input: AddItemMutationInput!) {
+  addItem(input: $input) {
+    item {
+      id,
+      name
+    }
   }
 }
