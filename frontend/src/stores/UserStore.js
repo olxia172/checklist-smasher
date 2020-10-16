@@ -40,10 +40,12 @@ export default class UserStore {
   @action.bound
   loginUser(email, password) {
     makePromise(execute(useGraphQL(null), loginEnjoyer(email, password)))
-      .then(({ data: { login: { key } } }) => {
-        this.save(key);
+      .then(({ data }) => {
+        this.save(data.login.key);
       })
-      .catch((error) => (this.errors = error))
+      .catch((error) => {
+        this.errors = error
+      })
       .finally(() => this.getCurrentUser());
   }
 
