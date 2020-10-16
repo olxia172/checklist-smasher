@@ -9,6 +9,6 @@ class Checklist < ApplicationRecord
   after_create :register_creation
 
   def register_creation
-    events.create(action: Event::CHECKLIST_ADDED)
+    events.create(action: :checklist_added)
   end
 end

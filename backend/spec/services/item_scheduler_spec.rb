@@ -32,6 +32,7 @@ RSpec.describe ItemScheduler do
           expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
                          .and change { item.reload.schedule_id }
+                         .and change { Occurrence.count }
         end
 
         it 'should save correct schedule' do
