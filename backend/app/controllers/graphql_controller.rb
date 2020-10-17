@@ -46,20 +46,19 @@ class GraphqlController < ApplicationController
   end
 
   def set_current_user
-    Enjoyer.all.first
-    # key = request.headers['Authorization']&.split&.last
-    #
-    # if key.present?
-    #   decoded_token = begin
-    #     JWT.decode key, ENV['HMAC_SECRET'], true, { algorithm: 'HS256' }
-    #   rescue JWT::ExpiredSignature
-    #     []
-    #   end
-    #
-    #   enjoyer_id = decoded_token.first&.dig("enjoyer_id")
-    #   if enjoyer_id.present?
-    #     Enjoyer.find_by(id: enjoyer_id)
-    #   end
-    # end
+    key = request.headers['Authorization']&.split&.last
+
+    if key.present?
+      decoded_token = begin
+        JWT.decode key, ENV['HMAC_SECRET'], true, { algorithm: 'HS256' }
+      rescue JWT::ExpiredSignature
+        []
+      end
+
+      enjoyer_id = decoded_token.first&.dig("enjoyer_id")
+      if enjoyer_id.present?
+        Enjoyer.find_by(id: enjoyer_id)
+      end
+    end
   end
 end
