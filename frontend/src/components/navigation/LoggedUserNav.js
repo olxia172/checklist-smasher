@@ -1,39 +1,30 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "../../screens/HomeScreen";
-import ChecklistsScreen from "../../screens/ChecklistsScreen";
-import ScheduleItemScreen from "../../screens/ScheduleItemScreen";
-// import MainScreenHeader from "./src/components/MainScreenHeader";
-import { userHeaderStyles } from "../../constants/themeConfig";
+import ChecklistsNav from "./ChecklistsNav";
+import MainScreenNav from "./MainScreenNav";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { basicColors } from "../../constants/colors"
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const LoggedUserNav = () => (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          ...userHeaderStyles,
-        }}
-      />
-      <Stack.Screen
-        name="Checklists"
-        component={ChecklistsScreen}
-        options={{
-          ...userHeaderStyles,
-        }}
-      />
-      <Stack.Screen
-        name="ScheduleItem"
-        component={ScheduleItemScreen}
-        options={{
-          ...userHeaderStyles,
-        }}
-      />
-    </Stack.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          const iconName = route.name === "Home" ? "check-double" : "list"
+          return <Icon name={iconName} size={size} color={color} />
+        }
+      })}
+      tabBarOptions={{
+        showLabel: false,
+        activeTintColor: basicColors.primary,
+      }}
+      >
+      <Tab.Screen name="Home" component={MainScreenNav} />
+      <Tab.Screen name="Checklists" component={ChecklistsNav} />
+    </Tab.Navigator>
   </NavigationContainer>
 );
 
