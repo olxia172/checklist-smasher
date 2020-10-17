@@ -1,5 +1,5 @@
 class Checklist < ApplicationRecord
-  belongs_to :enjoyer
+  belongs_to :enjoyer, counter_cache: true
   belongs_to :category, optional: true
   has_many :items
   has_many :events, as: :eventable, dependent: :destroy
