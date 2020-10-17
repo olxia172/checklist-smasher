@@ -9,7 +9,7 @@ module Types
       argument :date, String, required: false
     end
 
-    def items(date:)
+    def items(date: nil)
       if date.present?
         object.items_to_do(date: date)
       else

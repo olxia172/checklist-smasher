@@ -6,7 +6,7 @@ export const getChecklists = {
       checklists {
         id
         name
-        items(date: null) {
+        items {
           id
           name
           done
