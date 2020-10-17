@@ -22,8 +22,7 @@ class ItemScheduler
     begin
       base_item.update(schedule_id: schedule.id)
       base_item.events.create(action: :item_scheduled)
-      binding.pry
-      base_item.add_occurrences(Date.today.end_of_month)
+      base_item.add_occurrences(Date.today.end_of_month + 3.months)
     rescue
       @errors << "Something went wrong"
       @errors

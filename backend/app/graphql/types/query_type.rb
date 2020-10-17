@@ -7,7 +7,7 @@ module Types
 
     def checklists
       enjoyer = context[:current_user]
-      enjoyer&.checklists&.includes(:items, :events, items: :events)
+      enjoyer&.checklists&.includes(:items)
     end
 
     field :daily_checklists,
@@ -18,7 +18,8 @@ module Types
     end
 
     def daily_checklists(date:)
-
+      enjoyer = context[:current_user]
+      enjoyer.checklists.to_do_by_date(date)
     end
 
     field :current_user, Types::EnjoyerType, null: true, description: "Returns current user"

@@ -29,6 +29,7 @@ gem 'graphql-extras'
 gem 'graphql-errors'
 gem 'graphql-guard'
 gem 'jwt'
+gem 'whenever'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and queries a debugger console

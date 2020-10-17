@@ -2,6 +2,7 @@ class GraphqlPolicy
   RULES = {
     Types::QueryType => {
       currentUser: ->(obj, args, ctx) { true },
+      dailyChecklists: ->(obj, args, ctx) { true },
       '*': ->(obj, args, ctx) { is_enjoyer_logged_in?(ctx) }
     },
     Types::MutationType => {

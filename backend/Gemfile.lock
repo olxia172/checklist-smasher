@@ -62,6 +62,7 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.1)
+    chronic (0.10.2)
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     crass (1.0.6)
@@ -222,6 +223,8 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
     zeitwerk (2.2.2)
 
 PLATFORMS
@@ -257,6 +260,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   sprockets (~> 3)
   tzinfo-data
+  whenever
 
 RUBY VERSION
    ruby 2.6.5p114
