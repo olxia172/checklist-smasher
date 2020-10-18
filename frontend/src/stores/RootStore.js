@@ -18,5 +18,6 @@ export default class RootStore {
 
   refresh() {
     this.checklistsStore.getChecklists();
+    this.checklistsStore.getMyDailyChecklists();
   }
 }

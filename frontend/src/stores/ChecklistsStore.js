@@ -4,6 +4,7 @@ import { checklists } from "../api/queries/checklists";
 import { getDailyChecklists } from "../api/queries/dailyChecklists";
 import createChecklist from "../api/mutations/createChecklist";
 import useGraphQL from "../hooks/useGraphQL";
+import { toString } from "../helpers/dateHelpers"
 
 export default class ChecklistsStore {
   constructor(root) {
@@ -44,7 +45,7 @@ export default class ChecklistsStore {
   }
 
   @action.bound
-  getMyDailyChecklists(date) {
+  getMyDailyChecklists(date = toString(new Date())) {
     this.isLoading = true;
     makePromise(
       execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(date))

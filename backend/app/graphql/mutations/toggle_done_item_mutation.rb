@@ -8,10 +8,15 @@ module Mutations
 
     def resolve(id:, done:, date: Date.today.to_s)
       item = Item.find(id)
+
       if done
         item.events.create!(action: Event::ITEM_MARKED_DONE)
       else
-        item.events.where("created_at::date = ?", Date.parse(date)).where(action: Event::ITEM_MARKED_DONE).each(&:destroy!)
+        if item.schedule.present?
+          item.events.item_marked_done.where("created_at::date = ?", Date.parse(date)).each(&:destroy!)
+        else
+          item.events.item_marked_done.each(&:destroy!)
+        end
       end
 
       {

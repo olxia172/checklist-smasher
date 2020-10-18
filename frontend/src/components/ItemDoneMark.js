@@ -10,12 +10,14 @@ function useChecklists() {
   }));
 }
 
-function ItemDoneMark({ done, id }) {
+const ItemDoneMark = ({ done, id }) => {
   const { toggleDoneItem } = useChecklists();
 
   function toggleDone() {
     toggleDoneItem(id, !Boolean(done));
   }
+
+  console.log(id);
 
   return (
     <TouchableHighlight

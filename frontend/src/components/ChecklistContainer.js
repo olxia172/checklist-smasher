@@ -18,7 +18,7 @@ const StyledCtaContainer = styled.View`
   flex-direction: row;
 `
 
-const ChecklistContainer = ({ name, id, items }) => (
+const ChecklistContainer = ({ name, id, items, shouldRenderDoneMark = false, shouldRenderScheduleButton = false, shouldRenderRemoveButton = false, shouldRenderAddItemCta = false }) => (
   <StyledView key={name}>
     <List.Section>
       <List.Accordion
@@ -29,17 +29,17 @@ const ChecklistContainer = ({ name, id, items }) => (
           <List.Item
             key={id}
             title={name}
-            left={() => <ItemDoneMark done={done} id={id} />}
+            left={() => (shouldRenderDoneMark && <ItemDoneMark done={done} id={id} />)}
             right={() => (
               <StyledCtaContainer>
-                <ItemScheduleButton id={id} isScheduled={isScheduled} />
-                <ItemRemoveButton id={id} />
+                {shouldRenderScheduleButton && <ItemScheduleButton id={id} isScheduled={isScheduled} />}
+                {shouldRenderRemoveButton && <ItemRemoveButton id={id} />}
               </StyledCtaContainer>
             )}
           />
         ))}
       </List.Accordion>
-      <ChecklistCtas name={name} checklistId={id} />
+      {shouldRenderAddItemCta && <ChecklistCtas name={name} checklistId={id} />}
     </List.Section>
   </StyledView>
 );
@@ -54,6 +54,10 @@ ChecklistContainer.propTypes = {
       done: bool,
     })
   ),
+  shouldRenderAddItemCta: bool,
+  shouldRenderRemoveButton: bool,
+  shouldRenderScheduleButton: bool,
+  shouldRenderDoneMark: bool,
 };
 
 export default ChecklistContainer;

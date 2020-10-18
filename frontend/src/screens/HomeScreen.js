@@ -3,7 +3,6 @@ import { View, Text, FlatList } from "react-native";
 import { useStoreData } from "../hooks/useStoreData";
 import { Title, Button } from 'react-native-paper';
 import styled from "styled-components/native";
-import { toString } from "../helpers/dateHelpers"
 import ChecklistContainer from "../components/ChecklistContainer";
 import { toJS } from "mobx";
 
@@ -35,10 +34,12 @@ const HomeScreen = () => {
   const handleLogout = () => logout();
 
   useEffect(() => {
-    getDailyChecklists(toString(new Date()));
+    getDailyChecklists();
   }, [getDailyChecklists]);
 
   const data = dailyChecklists && toJS(dailyChecklists)
+
+  console.log(JSON.stringify(data));
 
   return (
     <Container>
@@ -49,7 +50,7 @@ const HomeScreen = () => {
         data={data}
         renderItem={({ item }) => (
           <View key={item.name}>
-            <ChecklistContainer {...item} />
+            <ChecklistContainer {...item} shouldRenderDoneMark />
           </View>
         )}
         keyExtractor={(item) => item.id}

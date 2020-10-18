@@ -7,6 +7,7 @@ export function getDailyChecklists(date) {
         dailyChecklists(date: $date) {
           name,
           items(date: $date) {
+            id
             name
             done(date: $date)
           }

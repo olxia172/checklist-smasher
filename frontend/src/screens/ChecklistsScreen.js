@@ -53,7 +53,7 @@ function ChecklistsScreen({ navigation }) {
         data={data}
         renderItem={({ item }) => (
           <View key={item.name}>
-            <ChecklistContainer {...item} />
+            <ChecklistContainer {...item} shouldRenderScheduleButton shouldRenderRemoveButton shouldRenderAddItemCta />
           </View>
         )}
         keyExtractor={(item) => item.id}

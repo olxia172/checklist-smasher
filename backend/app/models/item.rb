@@ -32,11 +32,11 @@ class Item < ApplicationRecord
     end
   end
 
-  def done?(date)
+  def done?(date = Date.today.to_s)
     if schedule.present?
       events.item_marked_done.where("created_at::date = ?", date).present?
     else
-      events.item_marked_done.present?
+      events.item_marked_done.any?
     end
   end
 end
