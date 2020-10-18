@@ -14,6 +14,8 @@ export default class RootStore {
   setup() {
     this.sessionStore.getSessionToken();
     this.userStore.getCurrentUser();
+    this.checklistsStore.getChecklists();
+    this.checklistsStore.getMyDailyChecklists();
   }
 
   refresh() {

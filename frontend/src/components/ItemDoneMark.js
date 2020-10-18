@@ -17,8 +17,6 @@ const ItemDoneMark = ({ done, id }) => {
     toggleDoneItem(id, !Boolean(done));
   }
 
-  console.log(id);
-
   return (
     <TouchableHighlight
       style={{ alignSelf: "center" }}

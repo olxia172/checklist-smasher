@@ -15,8 +15,8 @@ export default class ChecklistsStore {
   @observable checklists = [];
   @observable checklistsCount = 0;
   @observable errors = null;
-  @observable dailyChecklists = []
-  @observable dailyChecklistsCount = 0;
+  @observable dailyChecklists = {}
+  @observable dailyChecklistsCount = {};
 
   @action.bound
   getChecklists() {
@@ -51,8 +51,8 @@ export default class ChecklistsStore {
       execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(date))
     )
       .then(({ data }) => {
-        this.dailyChecklists = data.dailyChecklists;
-        this.dailyChecklistsCount = this.dailyChecklists.length;
+        this.dailyChecklists[date] = data.dailyChecklists;
+        this.dailyChecklistsCount[date] = data.dailyChecklists.length;
       })
       .catch((error) => (this.errors = error))
       .finally(() => this.isLoading = false)
