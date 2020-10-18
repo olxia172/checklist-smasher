@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { useStoreData } from "../hooks/useStoreData";
 import { Title, Button } from 'react-native-paper';
 import styled from "styled-components/native";
+import { toString } from "../helpers/dateHelpers"
+import ChecklistContainer from "../components/ChecklistContainer";
+import { toJS } from "mobx";
 
 const Container = styled.View`
   height: 100%;
@@ -13,46 +16,44 @@ const TitleWrapper = styled.View`
   margin: 0 auto;
 `
 
-const ChecklistsButtonWrapper = styled.View`
-  margin: 20px;
-`
-
 const LogoutButtonWrapper = styled.View`
   margin-top: auto;
 `
 
 function useData() {
   return useStoreData(({ checklistsStore, userStore }) => ({
-    checklistsCount: checklistsStore.checklistsCount,
-    getChecklists: checklistsStore.getChecklists,
+    dailyChecklistsCount: checklistsStore.dailyChecklistsCount,
     logout: userStore.logoutUser,
+    getDailyChecklists: checklistsStore.getMyDailyChecklists,
+    dailyChecklists: checklistsStore.dailyChecklists,
   }));
 }
 
-const HomeScreen = ({ navigation }) => {
-  const { getChecklists, checklistsCount, logout } = useData();
+const HomeScreen = () => {
+  const { getDailyChecklists, dailyChecklistsCount, logout, dailyChecklists } = useData();
 
   const handleLogout = () => logout();
 
   useEffect(() => {
-    getChecklists();
-  });
+    getDailyChecklists(toString(new Date()));
+  }, [getDailyChecklists]);
+
+  const data = dailyChecklists && toJS(dailyChecklists)
 
   return (
     <Container>
       <TitleWrapper>
-        <Title>You have {checklistsCount} checklists! Check them out!</Title>
+        <Title>You have {dailyChecklistsCount} checklists! Check them out!</Title>
       </TitleWrapper>
-      <ChecklistsButtonWrapper>
-        <Button
-          icon="progress-check"
-          mode="contained"
-          contentStyle={{ paddingVertical: 16 }}
-          onPress={() => navigation.navigate("Checklists")}
-        >
-          Go to checklists
-        </Button>
-      </ChecklistsButtonWrapper>
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <View key={item.name}>
+            <ChecklistContainer {...item} />
+          </View>
+        )}
+        keyExtractor={(item) => item.id}
+      />
       <LogoutButtonWrapper>
         <Button onPress={handleLogout}>Logout</Button>
       </LogoutButtonWrapper>

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const getChecklists = {
+export const checklists = {
   query: gql`
     query {
       checklists {

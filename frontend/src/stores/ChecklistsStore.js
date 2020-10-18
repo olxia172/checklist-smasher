@@ -1,6 +1,7 @@
 import { observable, action } from "mobx";
 import { execute, makePromise } from "apollo-link";
-import { getChecklists } from "../api/queries/checklists";
+import { checklists } from "../api/queries/checklists";
+import { getDailyChecklists } from "../api/queries/dailyChecklists";
 import createChecklist from "../api/mutations/createChecklist";
 import useGraphQL from "../hooks/useGraphQL";
 
@@ -13,12 +14,14 @@ export default class ChecklistsStore {
   @observable checklists = [];
   @observable checklistsCount = 0;
   @observable errors = null;
+  @observable dailyChecklists = []
+  @observable dailyChecklistsCount = 0;
 
   @action.bound
   getChecklists() {
     this.isLoading = true;
     makePromise(
-      execute(useGraphQL(this.root.sessionStore.sessionKey), getChecklists)
+      execute(useGraphQL(this.root.sessionStore.sessionKey), checklists)
     )
       .then(({ data }) => {
         this.checklists = data.checklists;
@@ -38,5 +41,19 @@ export default class ChecklistsStore {
     )
       .then(() => this.root.refresh())
       .catch((error) => (this.errors = error));
+  }
+
+  @action.bound
+  getMyDailyChecklists(date) {
+    this.isLoading = true;
+    makePromise(
+      execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(date))
+    )
+      .then(({ data }) => {
+        this.dailyChecklists = data.dailyChecklists;
+        this.dailyChecklistsCount = this.dailyChecklists.length;
+      })
+      .catch((error) => (this.errors = error))
+      .finally(() => this.isLoading = false)
   }
 }

@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     store.setup();
-  });
+  }, [store]);
 
   return (
     <StoreProvider store={store}>

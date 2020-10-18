@@ -1,11 +1,7 @@
 const toString = (date) => {
-  if (typeof date !== "object") return "";
+  if (typeof date !== "object") return;
 
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDay();
-
-  return [year, month, day].join("-");
+  return date.toJSON().split("T")[0];
 }
 
 export { toString };

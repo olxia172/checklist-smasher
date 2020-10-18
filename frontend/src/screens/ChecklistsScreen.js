@@ -32,7 +32,7 @@ function ChecklistsScreen({ navigation }) {
 
   const data = checklists && toJS(checklists);
 
-  function handleAddChecklist() {
+  const handleAddChecklist = () => {
     createChecklist(checklistName);
     closeDialogModal();
     setChecklistName("");
