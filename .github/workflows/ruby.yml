@@ -28,6 +28,7 @@ jobs:
       with:
         ruby-version: 2.6
     - name: Go to BE dir
+      run: cd backend/
       run: pwd
     - name: Install dependencies
       run: bundle install
