@@ -4,4 +4,11 @@ const toString = (date) => {
   return date.toJSON().split("T")[0];
 }
 
-export { toString };
+const tomorrowDate = () => {
+  const today = new Date()
+  const tomorrow = new Date(today)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  return toString(tomorrow)
+}
+
+export { tomorrowDate, toString };

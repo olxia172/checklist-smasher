@@ -11,7 +11,8 @@ export default class ChecklistsStore {
     this.root = root;
   }
 
-  @observable isLoading = false;
+  @observable areChecklistsFetched = false;
+  @observable areDailyChecklistsFetched = false;
   @observable checklists = [];
   @observable checklistsCount = 0;
   @observable errors = null;
@@ -19,42 +20,52 @@ export default class ChecklistsStore {
   @observable dailyChecklistsCount = {};
 
   @action.bound
-  getChecklists() {
-    this.isLoading = true;
-    makePromise(
-      execute(useGraphQL(this.root.sessionStore.sessionKey), checklists)
-    )
-      .then(({ data }) => {
-        this.checklists = data.checklists;
-        this.checklistsCount = this.checklists.length;
-        this.isLoading = false;
-      })
-      .catch((error) => (this.errors = error));
-  }
-
-  @action.bound
-  createChecklist(checklistName) {
-    makePromise(
-      execute(
-        useGraphQL(this.root.sessionStore.sessionKey),
-        createChecklist(checklistName)
+  async getChecklists() {
+    try {
+      const { data } = await makePromise(
+        execute(useGraphQL(this.root.sessionStore.sessionKey), checklists)
       )
-    )
-      .then(() => this.root.refresh())
-      .catch((error) => (this.errors = error));
+
+      this.checklists = data.checklists;
+      this.checklistsCount = this.checklists.length;
+    } catch (error) {
+      this.errors = error
+    } finally {
+      this.areChecklistsFetched = true;
+    }
   }
 
   @action.bound
-  getMyDailyChecklists(date = toString(new Date())) {
-    this.isLoading = true;
-    makePromise(
-      execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(date))
-    )
-      .then(({ data }) => {
-        this.dailyChecklists[date] = data.dailyChecklists;
-        this.dailyChecklistsCount[date] = data.dailyChecklists.length;
-      })
-      .catch((error) => (this.errors = error))
-      .finally(() => this.isLoading = false)
+  async createChecklist(checklistName) {
+    try {
+      await makePromise(
+        execute(
+          useGraphQL(this.root.sessionStore.sessionKey),
+          createChecklist(checklistName)
+        )
+      )
+
+      await this.root.refresh()
+    } catch (error) {
+      this.errors = error
+    }
+  }
+
+  @action.bound
+  async getMyDailyChecklists(date = toString(new Date())) {
+    this.areDailyChecklistsFetched = false;
+
+    try {
+      const { data } = await makePromise(
+        execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(date))
+      )
+
+      this.dailyChecklists[date] = data.dailyChecklists;
+      this.dailyChecklistsCount[date] = data.dailyChecklists.length;
+    } catch (error) {
+      this.errors = error
+    } finally {
+      this.areDailyChecklistsFetched = true
+    }
   }
 }

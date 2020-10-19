@@ -25,7 +25,6 @@ function useData() {
   return useStoreData(({ checklistsStore, userStore }) => ({
     dailyChecklistsCount: checklistsStore.dailyChecklistsCount,
     logout: userStore.logoutUser,
-    getDailyChecklists: checklistsStore.getMyDailyChecklists,
     dailyChecklists: checklistsStore.dailyChecklists,
   }));
 }
@@ -34,10 +33,6 @@ const HomeScreen = () => {
   const { getDailyChecklists, dailyChecklistsCount, logout, dailyChecklists } = useData();
 
   const handleLogout = () => logout();
-
-  useEffect(() => {
-    getDailyChecklists();
-  }, [getDailyChecklists]);
 
   const data = !_isEmpty(dailyChecklists) ? toJS(dailyChecklists[toString(new Date())]) : []
   const count = !_isEmpty(dailyChecklistsCount) ? dailyChecklistsCount[toString(new Date())] : ""

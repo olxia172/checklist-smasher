@@ -12,6 +12,7 @@ export default class UserStore {
   }
 
   @observable isLoading = true;
+  @observable isUserFetched = false;
   @observable isUserLoggedIn = false;
   @observable userName = "";
   @observable userEmail = "";
@@ -19,46 +20,58 @@ export default class UserStore {
 
   @action.bound
   async getCurrentUser() {
-    const key = await getToken();
+    this.isLoading = true
 
-    if (key !== null) {
-      makePromise(execute(useGraphQL(key), getCurrentEnjoyer))
-        .then(({ data: { currentUser: { name, email } } }) => {
-          this.userName = name;
-          this.userEmail = email;
-          this.isUserLoggedIn = true;
-        })
-        .then(() => this.root.refresh())
-        .catch((error) => {
-          this.errors = error;
-          this.cleanSession();
-          this.isUserLoggedIn = false;
-        });
+    try {
+      const key = await getToken();
+      if (key !== null) {
+        const { data } = await makePromise(execute(useGraphQL(key), getCurrentEnjoyer))
+        const { currentUser: { name, email } } = data
+
+        this.userName = name;
+        this.userEmail = email;
+        this.isUserLoggedIn = true;
+      }
+    } catch (error) {
+      await this.cleanSession();
+      this.errors = error;
+      this.isUserLoggedIn = false;
+    } finally {
+      this.isLoading = false
+      this.isUserFetched = true
     }
   }
 
   @action.bound
-  loginUser(email, password) {
-    makePromise(execute(useGraphQL(null), loginEnjoyer(email, password)))
-      .then(({ data }) => {
-        this.save(data.login.key);
-      })
-      .catch((error) => {
-        this.errors = error
-      })
-      .finally(() => this.getCurrentUser());
+  async loginUser(email, password) {
+    this.isLoading = true
+
+    try {
+      const { data } = await makePromise(execute(useGraphQL(null), loginEnjoyer(email, password)))
+      await this.save(data.login.key)
+    } catch (error) {
+      this.errors = error
+    } finally {
+      this.isUserFetched = false;
+    }
   }
 
   @action.bound
   async logoutUser() {
-    const key = await getToken();
+    this.isLoading = true
 
-    makePromise(execute(useGraphQL(key), logoutEnjoyer)).finally(() => {
+    try {
+      const key = await getToken();
+      await makePromise(execute(useGraphQL(key), logoutEnjoyer))
+    } catch (error) {
+      this.errors = error
+    } finally {
       this.userName = null;
       this.userEmail = null;
       this.isUserLoggedIn = false;
-      this.cleanSession();
-    });
+      await this.cleanSession();
+      this.isLoading = false
+    }
   }
 
   @action.bound

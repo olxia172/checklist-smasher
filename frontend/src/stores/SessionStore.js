@@ -7,12 +7,18 @@ export default class SessionStore {
   }
 
   @observable sessionKey = null;
+  @observable errors = null
+  @observable sessionKeyFetched = false
 
   @action.bound
-  async getSessionToken(token) {
-    const key = await getToken();
-    if (key) {
+  async getSessionToken() {
+    try {
+      const key = await getToken();
       this.sessionKey = key;
+    } catch (error) {
+      this.errors = error;
+    } finally {
+      this.sessionKeyFetched = true
     }
   }
 }

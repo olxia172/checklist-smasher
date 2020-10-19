@@ -5,7 +5,7 @@ import { Title, Button } from 'react-native-paper';
 import styled from "styled-components/native";
 import ChecklistContainer from "../components/ChecklistContainer";
 import { toJS } from "mobx";
-import { toString } from "../helpers/dateHelpers"
+import { tomorrowDate, toString } from "../helpers/dateHelpers"
 import _isEmpty from "lodash/isEmpty"
 
 const Container = styled.View`
@@ -32,20 +32,11 @@ function useData() {
 
 const TomorrowScreen = () => {
   const { getDailyChecklists, dailyChecklistsCount, logout, dailyChecklists } = useData();
-  const date = () => {
-    const today = new Date()
-    const tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    return tomorrow
-  }
+
   const handleLogout = () => logout();
 
-  useEffect(() => {
-    getDailyChecklists(toString(date()));
-  }, [getDailyChecklists]);
-
-  const data = !_isEmpty(dailyChecklists) ? toJS(dailyChecklists[toString(date())]) : []
-  const count = !_isEmpty(dailyChecklistsCount) ? dailyChecklistsCount[toString(date())] : ""
+  const data = !_isEmpty(dailyChecklists) ? toJS(dailyChecklists[tomorrowDate()]) : []
+  const count = !_isEmpty(dailyChecklistsCount) ? dailyChecklistsCount[tomorrowDate()] : ""
 
   return (
     <Container>

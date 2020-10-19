@@ -9,7 +9,8 @@ import { basicColors } from "../../constants/colors"
 
 const Tab = createBottomTabNavigator();
 
-const LoggedUserNav = () => (
+const LoggedUserNav = () => {
+  return (
   <NavigationContainer>
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -32,6 +33,6 @@ const LoggedUserNav = () => (
       <Tab.Screen name="Checklists" component={ChecklistsNav} />
     </Tab.Navigator>
   </NavigationContainer>
-);
-
+)
+}
 export default LoggedUserNav;

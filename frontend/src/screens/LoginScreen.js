@@ -17,10 +17,7 @@ const ButtonWrapper = styled.View`
 
 function useData() {
   return useStoreData(({ checklistsStore, userStore }) => ({
-    checklistsCount: checklistsStore.checklistsCount,
     login: userStore.loginUser,
-    logout: userStore.logoutUser,
-    isUserLoggedIn: userStore.isUserLoggedIn,
   }));
 }
 

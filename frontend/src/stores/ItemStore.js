@@ -14,50 +14,67 @@ export default class ItemStore {
   @observable isLoading = false;
 
   @action.bound
-  toggleDoneItem(itemId, doneValue) {
-    makePromise(
-      execute(
-        useGraphQL(this.root.sessionStore.sessionKey),
-        toggleDoneItem(itemId, doneValue)
+  async toggleDoneItem(itemId, doneValue) {
+    try {
+      await makePromise(
+        execute(
+          useGraphQL(this.root.sessionStore.sessionKey),
+          toggleDoneItem(itemId, doneValue)
+        )
       )
-    )
-      .then(() => this.root.refresh())
-      .catch((error) => (this.errors = error));
+    } catch (error) {
+      this.errors = error
+    } finally {
+      await this.root.refresh()
+    }
   }
 
   @action.bound
-  scheduleItem(itemId, scheduleData) {
-    return makePromise(
-      execute(
-        useGraphQL(this.root.sessionStore.sessionKey),
-        scheduleItem(itemId, scheduleData)
+  async scheduleItem(itemId, scheduleData) {
+    try {
+      const response = await makePromise(
+        execute(
+          useGraphQL(this.root.sessionStore.sessionKey),
+          scheduleItem(itemId, scheduleData)
+        )
       )
-    )
-      .then(() => this.root.refresh())
-      .catch((error) => (this.errors = error));
+      return response
+    } catch (error) {
+      this.errors = error
+    } finally {
+      await his.root.refresh()
+    }
   }
 
   @action.bound
-  addItem(name, checklistId) {
-    makePromise(
-      execute(
-        useGraphQL(this.root.sessionStore.sessionKey),
-        addItemToChecklist(name, checklistId)
+  async addItem(name, checklistId) {
+    try {
+      await makePromise(
+        execute(
+          useGraphQL(this.root.sessionStore.sessionKey),
+          addItemToChecklist(name, checklistId)
+        )
       )
-    )
-      .then(() => this.root.refresh())
-      .catch((error) => (this.errors = error));
+    } catch (error) {
+      this.errors = error
+    } finally {
+      await this.root.refresh()
+    }
   }
 
   @action.bound
-  removeItem(itemId) {
-    makePromise(
-      execute(
-        useGraphQL(this.root.sessionStore.sessionKey),
-        removeItemFromChecklist(itemId)
+  async removeItem(itemId) {
+    try {
+      await makePromise(
+        execute(
+          useGraphQL(this.root.sessionStore.sessionKey),
+          removeItemFromChecklist(itemId)
+        )
       )
-    )
-      .then(() => this.root.refresh())
-      .catch((error) => (this.errors = error));
+    } catch (error) {
+      this.errors = error
+    } finally {
+      await this.root.refresh()
+    }
   }
 }
