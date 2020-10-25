@@ -11,15 +11,16 @@ const MainViewContainer = styled.View`
 `;
 
 function useData() {
-  return useStoreData(({ refresh, setup }) => ({
+  return useStoreData(({ refresh, setup, sessionStore }) => ({
     refresh,
     setup,
+    sessionKey: sessionStore.sessionKey,
   }));
 }
 
 const DataProvider = ({ children }) => {
   const [ready, setReady] = useState(false)
-  const { setup, refresh } = useData()
+  const { setup, refresh, sessionKey } = useData()
 
   useEffect(() => {
     const boot = async () => {
@@ -27,12 +28,14 @@ const DataProvider = ({ children }) => {
         setReady(true)
       }
 
-      refresh()
+      await refresh()
       setReady(true)
     }
 
     boot()
-  }, [setup, refresh, setReady])
+  }, [setup, refresh, setReady, sessionKey])
+
+  console.log("data ready", ready);
 
   return (
     <MainViewContainer>

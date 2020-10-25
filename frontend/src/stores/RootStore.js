@@ -13,24 +13,20 @@ export default class RootStore {
     this.sessionStore = new SessionStore(this);
   }
 
-  async getSession() {
+  getSession = async () => {
     await this.sessionStore.getSessionToken();
   }
 
   setup = async () => {
-    console.log("Here setup");
-console.log("this", this);
     try {
-      console.log("this in try", this);
-      await Promise.all([
+      const [data1, data2, data3, data4] = await Promise.all([
+        this.userStore.getCurrentUser(),
         this.checklistsStore.getChecklists(),
         this.checklistsStore.getMyDailyChecklists(),
         this.checklistsStore.getMyDailyChecklists(tomorrowDate())
       ])
-      console.log("this after promise all", this);
-      // const success = this.checklistStore.areChecklistsFetched && this.checklistStore.areDailyChecklistsFetched
-      // console.log("success setup", success);
-      // return success
+
+      return data1 && data2 && data3 && data4
     } catch (error) {
       console.log(error);
     }
@@ -38,15 +34,29 @@ console.log("this", this);
 
   refresh = async () => {
     try {
-      await Promise.all([
+      const [data1, data2, data3, data4] = await Promise.all([
+        this.userStore.getCurrentUser(),
         this.checklistsStore.getChecklists(),
         this.checklistsStore.getMyDailyChecklists(),
         this.checklistsStore.getMyDailyChecklists(tomorrowDate())
       ])
 
-      const success = this.checklistStore.areChecklistsFetched && this.checklistStore.areDailyChecklistsFetched
-      console.log("success refresh", success);
-      return success
+      return data1 && data2 && data3 && data4
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async refresh2() {
+    console.log("refresh2");
+    try {
+      const [data1, data2, data3, data4] = await Promise.all([
+        this.userStore.getCurrentUser(),
+        this.checklistsStore.getChecklists(),
+        this.checklistsStore.getMyDailyChecklists()
+      ])
+
+      return data1 && data2 && data3 && data4
     } catch (error) {
       console.log(error);
     }

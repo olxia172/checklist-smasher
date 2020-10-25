@@ -1,5 +1,8 @@
 import { observable, action } from "mobx";
-import { getToken } from "../helpers/tokenHelpers";
+import { getToken, saveToken } from "../helpers/tokenHelpers";
+import useGraphQL from "../hooks/useGraphQL";
+import { loginEnjoyer } from "../api/mutations/loginEnjoyer";
+import { execute, makePromise } from "apollo-link";
 
 export default class SessionStore {
   constructor(root) {
@@ -20,5 +23,28 @@ export default class SessionStore {
     } finally {
       this.sessionKeyFetched = true
     }
+  }
+
+  @action.bound
+  async loginUser(email, password) {
+    this.isLoading = true
+
+    console.log("login");
+
+    try {
+      const { data } = await makePromise(execute(useGraphQL(null), loginEnjoyer(email, password)))
+      console.log("data", data);
+      await this.save(data.login.key)
+      this.sessionKey = data.login.key
+    } catch (error) {
+      this.errors = error
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  @action.bound
+  async save(token) {
+    await saveToken(token);
   }
 }

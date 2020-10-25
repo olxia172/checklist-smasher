@@ -16,8 +16,8 @@ const ButtonWrapper = styled.View`
 `;
 
 function useData() {
-  return useStoreData(({ checklistsStore, userStore }) => ({
-    login: userStore.loginUser,
+  return useStoreData(({ sessionStore }) => ({
+    login: sessionStore.loginUser,
   }));
 }
 

@@ -25,7 +25,7 @@ function useChecklists() {
   }));
 }
 
-function ChecklistsScreen({ navigation }) {
+const ChecklistsScreen = ({ navigation }) => {
   const { checklists, createChecklist } = useChecklists();
   const { isModalOpened, openDialogModal, closeDialogModal } = useDialogModal();
   const [checklistName, setChecklistName] = useState("");
