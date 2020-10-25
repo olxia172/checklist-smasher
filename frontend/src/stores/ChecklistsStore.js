@@ -5,6 +5,7 @@ import { getDailyChecklists } from "../api/queries/dailyChecklists";
 import createChecklist from "../api/mutations/createChecklist";
 import useGraphQL from "../hooks/useGraphQL";
 import { toString } from "../helpers/dateHelpers"
+import DailyChecklistStore from "./DailyChecklists/DailyChecklistStore"
 
 export default class ChecklistsStore {
   constructor(root) {
@@ -17,6 +18,7 @@ export default class ChecklistsStore {
   @observable checklistsCount = 0;
   @observable errors = null;
   @observable dailyChecklists = []
+  @observable newDailyChecklists = []
 
   @action.bound
   async getChecklists() {
@@ -88,6 +90,24 @@ export default class ChecklistsStore {
       this.errors = error
     } finally {
       this.areDailyChecklistsFetched = true
+    }
+  }
+
+
+  @action.bound
+  async newGetMyDailyChecklists(newDate = toString(new Date())) {
+    try {
+      let checklist = this.newDailyChecklists.find(({ date }) => date === newDate)
+
+      if (!checklist) {
+        checklist = new DailyChecklistStore(this.root, newDate)
+      }
+      await checklist.loadDailyChecklists()
+      this.newDailyChecklists.push(checklist)
+    } catch (error) {
+      this.errors = error
+    } finally {
+      return this.newDailyChecklists
     }
   }
 }

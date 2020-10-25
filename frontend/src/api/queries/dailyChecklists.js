@@ -5,6 +5,7 @@ export function getDailyChecklists(date) {
     query: gql`
       query dailyChecklists($date: String!) {
         dailyChecklists(date: $date) {
+          id,
           name,
           items(date: $date) {
             id

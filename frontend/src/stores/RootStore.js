@@ -19,12 +19,15 @@ export default class RootStore {
 
   setup = async () => {
     try {
-      const [data1, data2, data3, data4] = await Promise.all([
+      const [data1, data2, data3, data4, data5] = await Promise.all([
         this.userStore.getCurrentUser(),
         this.checklistsStore.getChecklists(),
         this.checklistsStore.getMyDailyChecklists(),
-        this.checklistsStore.getMyDailyChecklists(tomorrowDate())
+        this.checklistsStore.getMyDailyChecklists(tomorrowDate()),
+        this.checklistsStore.newGetMyDailyChecklists()
       ])
+
+      console.log("new method", data5[0].checklists[0].items);
 
       return data1 && data2 && data3 && data4
     } catch (error) {
