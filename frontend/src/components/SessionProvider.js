@@ -16,19 +16,16 @@ const SessionProvider = ({ children }) => {
 
   useEffect(() => {
     const boot = async () => {
-      console.log("here");
       await getSession()
       setReady(true)
     }
-console.log("sessionKey", Boolean(sessionKey));
+
     if (Boolean(sessionKey)) {
       setReady(true)
     } else {
       boot()
     }
   }, [getSession, setReady, sessionKey])
-
-  console.log("ready", ready);
 
   return (
     <View>

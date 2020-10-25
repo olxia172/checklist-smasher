@@ -35,8 +35,6 @@ const DataProvider = ({ children }) => {
     boot()
   }, [setup, refresh, setReady, sessionKey])
 
-  console.log("data ready", ready);
-
   return (
     <MainViewContainer>
       {ready && children}

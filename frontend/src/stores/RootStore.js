@@ -46,19 +46,4 @@ export default class RootStore {
       console.log(error);
     }
   }
-
-  async refresh2() {
-    console.log("refresh2");
-    try {
-      const [data1, data2, data3, data4] = await Promise.all([
-        this.userStore.getCurrentUser(),
-        this.checklistsStore.getChecklists(),
-        this.checklistsStore.getMyDailyChecklists()
-      ])
-
-      return data1 && data2 && data3 && data4
-    } catch (error) {
-      console.log(error);
-    }
-  }
 }

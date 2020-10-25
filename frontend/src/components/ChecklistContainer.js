@@ -27,7 +27,7 @@ const ChecklistContainer = ({ name, id, items, shouldRenderDoneMark = false, sho
       >
         {items.map(({ name, done, id, isScheduled }) => (
           <List.Item
-            key={[id, done]}
+            key={id}
             title={name}
             left={() => (shouldRenderDoneMark && <ItemDoneMark done={done} id={id} />)}
             right={() => (

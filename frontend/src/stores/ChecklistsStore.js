@@ -16,8 +16,7 @@ export default class ChecklistsStore {
   @observable checklists = [];
   @observable checklistsCount = 0;
   @observable errors = null;
-  @observable dailyChecklists = {}
-  @observable dailyChecklistsCount = {};
+  @observable dailyChecklists = []
 
   @action.bound
   async getChecklists() {
@@ -32,6 +31,8 @@ export default class ChecklistsStore {
       this.errors = error
     } finally {
       this.areChecklistsFetched = true;
+
+      return this.areChecklistsFetched
     }
   }
 
@@ -51,6 +52,28 @@ export default class ChecklistsStore {
     }
   }
 
+  // getMyDailyChecklists = flow(function * (date = toString(new Date())) {
+  //   this.areDailyChecklistsFetched = false;
+  //
+  //   try {
+  //     const { data } = yield makePromise(
+  //       execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(date))
+  //     )
+  //
+  //     this.dailyChecklists[date] = data.dailyChecklists;
+  //     this.dailyChecklistsCount[date] = data.dailyChecklists.length;
+  //     this.ticker += 1
+  //     console.log('dailyChecklists.date', JSON.stringify(date))
+  //     console.log('dailyChecklists', JSON.stringify(data.dailyChecklists))
+  //   } catch (error) {
+  //     this.errors = error
+  //   } finally {
+  //     this.areDailyChecklistsFetched = true
+  //
+  //     return this.dailyChecklists[date]
+  //   }
+  // }.bind(this))
+
   @action.bound
   async getMyDailyChecklists(date = toString(new Date())) {
     this.areDailyChecklistsFetched = false;
@@ -60,8 +83,7 @@ export default class ChecklistsStore {
         execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(date))
       )
 
-      this.dailyChecklists[date] = data.dailyChecklists;
-      this.dailyChecklistsCount[date] = data.dailyChecklists.length;
+      this.dailyChecklists = data.dailyChecklists;
     } catch (error) {
       this.errors = error
     } finally {

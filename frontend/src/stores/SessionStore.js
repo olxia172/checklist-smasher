@@ -29,11 +29,9 @@ export default class SessionStore {
   async loginUser(email, password) {
     this.isLoading = true
 
-    console.log("login");
-
     try {
       const { data } = await makePromise(execute(useGraphQL(null), loginEnjoyer(email, password)))
-      console.log("data", data);
+
       await this.save(data.login.key)
       this.sessionKey = data.login.key
     } catch (error) {

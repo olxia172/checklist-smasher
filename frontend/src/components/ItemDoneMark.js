@@ -13,7 +13,7 @@ function useChecklists() {
 const ItemDoneMark = ({ done, id }) => {
   const { toggleDoneItem } = useChecklists();
 
-  function toggleDone() {
+  const toggleDone = () => {
     toggleDoneItem(id, !Boolean(done));
   }
 

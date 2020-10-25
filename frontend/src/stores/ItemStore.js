@@ -42,7 +42,7 @@ export default class ItemStore {
     } catch (error) {
       this.errors = error
     } finally {
-      await his.root.refresh()
+      await this.root.refresh()
     }
   }
 
