@@ -17,26 +17,26 @@ export default class RootStore {
     await this.sessionStore.getSessionToken();
   }
 
-  async setup() {
+  setup = async () => {
     console.log("Here setup");
-console.log("this", this.checklistsStore);
+console.log("this", this);
     try {
-      console.log("this", this.checklistsStore);
+      console.log("this in try", this);
       await Promise.all([
         this.checklistsStore.getChecklists(),
         this.checklistsStore.getMyDailyChecklists(),
         this.checklistsStore.getMyDailyChecklists(tomorrowDate())
       ])
-
-      const success = this.checklistStore.areChecklistsFetched && this.checklistStore.areDailyChecklistsFetched
-      console.log("success setup", success);
-      return success
+      console.log("this after promise all", this);
+      // const success = this.checklistStore.areChecklistsFetched && this.checklistStore.areDailyChecklistsFetched
+      // console.log("success setup", success);
+      // return success
     } catch (error) {
       console.log(error);
     }
   }
 
-  async refresh() {
+  refresh = async () => {
     try {
       await Promise.all([
         this.checklistsStore.getChecklists(),

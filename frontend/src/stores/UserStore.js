@@ -52,7 +52,7 @@ export default class UserStore {
     } catch (error) {
       this.errors = error
     } finally {
-      this.isUserFetched = false;
+      this.getCurrentUser();
     }
   }
 
