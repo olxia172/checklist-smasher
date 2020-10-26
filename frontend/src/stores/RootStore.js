@@ -4,13 +4,15 @@ import UserStore from "./UserStore";
 import SessionStore from "./SessionStore";
 import { saveToken, removeToken, getToken } from "../helpers/tokenHelpers";
 import { tomorrowDate } from "../helpers/dateHelpers"
+import AllChecklistsStore from "./DailyChecklists/AllChecklistsStore"
 
 export default class RootStore {
   constructor() {
+    this.sessionStore = new SessionStore(this);
     this.checklistsStore = new ChecklistStore(this);
     this.itemStore = new ItemStore(this);
     this.userStore = new UserStore(this);
-    this.sessionStore = new SessionStore(this);
+    this.dailyChecklistsStore = new AllChecklistsStore(this);
   }
 
   getSession = async () => {
@@ -22,14 +24,10 @@ export default class RootStore {
       const [data1, data2, data3, data4, data5] = await Promise.all([
         this.userStore.getCurrentUser(),
         this.checklistsStore.getChecklists(),
-        this.checklistsStore.getMyDailyChecklists(),
-        this.checklistsStore.getMyDailyChecklists(tomorrowDate()),
-        this.checklistsStore.newGetMyDailyChecklists()
+        this.dailyChecklistsStore.newGetMyDailyChecklists()
       ])
 
-      console.log("new method", data5[0].checklists[0].items);
-
-      return data1 && data2 && data3 && data4
+      return data1 && data2 && data3 && data4 && data5
     } catch (error) {
       console.log(error);
     }
@@ -40,8 +38,7 @@ export default class RootStore {
       const [data1, data2, data3, data4] = await Promise.all([
         this.userStore.getCurrentUser(),
         this.checklistsStore.getChecklists(),
-        this.checklistsStore.getMyDailyChecklists(),
-        this.checklistsStore.getMyDailyChecklists(tomorrowDate())
+        this.dailyChecklistsStore.newGetMyDailyChecklists()
       ])
 
       return data1 && data2 && data3 && data4

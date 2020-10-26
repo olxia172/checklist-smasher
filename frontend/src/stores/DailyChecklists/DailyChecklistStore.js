@@ -19,16 +19,22 @@ export default class DailyChecklistStore {
   async loadDailyChecklists() {
     this.isLoading = true
 
+    console.log("fetch checklists");
+
+    console.log("this.sessionKey", this.sessionKey);
+
     try {
       const { data } = await makePromise(
         execute(useGraphQL(this.sessionKey), getDailyChecklists(this.date))
       )
+      console.log("data", data);
       runInAction(() => {
         data.dailyChecklists.forEach(checklist => this.findOrInitializeChecklist(checklist))
       })
     } catch (error) {
       this.errors = error
     } finally {
+      console.log("checklists", this.checklists);
       this.isLoading = false
     }
   }

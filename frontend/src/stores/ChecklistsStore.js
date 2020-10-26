@@ -92,22 +92,4 @@ export default class ChecklistsStore {
       this.areDailyChecklistsFetched = true
     }
   }
-
-
-  @action.bound
-  async newGetMyDailyChecklists(newDate = toString(new Date())) {
-    try {
-      let checklist = this.newDailyChecklists.find(({ date }) => date === newDate)
-
-      if (!checklist) {
-        checklist = new DailyChecklistStore(this.root, newDate)
-      }
-      await checklist.loadDailyChecklists()
-      this.newDailyChecklists.push(checklist)
-    } catch (error) {
-      this.errors = error
-    } finally {
-      return this.newDailyChecklists
-    }
-  }
 }

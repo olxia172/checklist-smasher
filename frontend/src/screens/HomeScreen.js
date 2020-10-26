@@ -7,6 +7,7 @@ import ChecklistContainer from "../components/ChecklistContainer";
 import { toJS } from "mobx";
 import { toString } from "../helpers/dateHelpers"
 import _isEmpty from "lodash/isEmpty"
+import { observer } from 'mobx-react-lite'
 
 const Container = styled.View`
   height: 100%;
@@ -17,19 +18,21 @@ const LogoutButtonWrapper = styled.View`
 `
 
 function useData() {
-  return useStoreData(({ checklistsStore, userStore }) => ({
+  return useStoreData(({ checklistsStore, userStore, dailyChecklistsStore }) => ({
     dailyChecklistsCount: checklistsStore.dailyChecklistsCount,
     logout: userStore.logoutUser,
-    dailyChecklists: checklistsStore.dailyChecklists,
+    dailyChecklists: dailyChecklistsStore.newDailyChecklists,
   }));
 }
 
-const HomeScreen = () => {
+const HomeScreen = observer(() => {
   const { getDailyChecklists, dailyChecklistsCount, logout, dailyChecklists } = useData();
 
   const handleLogout = () => logout();
 
-  const data = dailyChecklists
+  const data = dailyChecklists.find(({ date }) => date === toString(new Date())).checklists
+
+  console.log(data);
 
   return (
     <Container>
@@ -37,7 +40,7 @@ const HomeScreen = () => {
         data={data}
         renderItem={({ item }) => (
           <View key={item.name}>
-            <ChecklistContainer {...item} shouldRenderDoneMark />
+            <ChecklistContainer name={item.name} id={item.id} items={item.items} shouldRenderDoneMark />
           </View>
         )}
         keyExtractor={(item) => item.id}
@@ -47,6 +50,6 @@ const HomeScreen = () => {
       </LogoutButtonWrapper>
     </Container>
   );
-};
+});
 
 export default HomeScreen;

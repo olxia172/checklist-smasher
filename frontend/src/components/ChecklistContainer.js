@@ -25,15 +25,15 @@ const ChecklistContainer = ({ name, id, items, shouldRenderDoneMark = false, sho
         title={name}
         left={(props) => <List.Icon {...props} icon="playlist-check" />}
       >
-        {items.map(({ name, done, id, isScheduled }) => (
+        {items.map((item) => (
           <List.Item
-            key={id}
-            title={name}
-            left={() => (shouldRenderDoneMark && <ItemDoneMark done={done} id={id} />)}
+            key={item.id}
+            title={item.name}
+            left={() => (shouldRenderDoneMark && <ItemDoneMark item={item} />)}
             right={() => (
               <StyledCtaContainer>
-                {shouldRenderScheduleButton && <ItemScheduleButton id={id} isScheduled={isScheduled} />}
-                {shouldRenderRemoveButton && <ItemRemoveButton id={id} />}
+                {shouldRenderScheduleButton && <ItemScheduleButton id={item.id} isScheduled={item.isScheduled} />}
+                {shouldRenderRemoveButton && <ItemRemoveButton id={item.id} />}
               </StyledCtaContainer>
             )}
           />
