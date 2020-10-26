@@ -15,8 +15,6 @@ const DataProvider = observer(({ children }) => {
   const { sessionStore: { sessionKey }, setup, refresh } = useStoreData()
   const [ready, setReady] = useState(false)
 
-  console.log("DataProvider", sessionKey);
-
   useEffect(() => {
     const boot = async () => {
       if (await setup()) {

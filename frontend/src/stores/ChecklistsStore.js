@@ -75,21 +75,4 @@ export default class ChecklistsStore {
   //     return this.dailyChecklists[date]
   //   }
   // }.bind(this))
-
-  @action.bound
-  async getMyDailyChecklists(date = toString(new Date())) {
-    this.areDailyChecklistsFetched = false;
-
-    try {
-      const { data } = await makePromise(
-        execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(date))
-      )
-
-      this.dailyChecklists = data.dailyChecklists;
-    } catch (error) {
-      this.errors = error
-    } finally {
-      this.areDailyChecklistsFetched = true
-    }
-  }
 }
