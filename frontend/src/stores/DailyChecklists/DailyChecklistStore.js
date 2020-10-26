@@ -8,7 +8,6 @@ export default class DailyChecklistStore {
   constructor(root, date) {
     this.root = root;
     this.date = date;
-    this.sessionKey = this.root.sessionStore.sessionKey
   }
 
   @observable checklists = []
@@ -21,11 +20,9 @@ export default class DailyChecklistStore {
 
     console.log("fetch checklists");
 
-    console.log("this.sessionKey", this.sessionKey);
-
     try {
       const { data } = await makePromise(
-        execute(useGraphQL(this.sessionKey), getDailyChecklists(this.date))
+        execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(this.date))
       )
       console.log("data", data);
       runInAction(() => {

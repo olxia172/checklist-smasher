@@ -1,26 +1,21 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, FlatList } from "react-native";
-import { useStoreData } from "../hooks/useStoreData";
 import { ActivityIndicator } from 'react-native-paper';
 import styled from "styled-components";
 import { toJS } from "mobx"
 import _isEmpty from "lodash/isEmpty"
+import { observer } from 'mobx-react-lite'
+import { useStoreData } from "../stores/storesContext"
 
 const MainViewContainer = styled.View`
   height: 100%;
 `;
 
-function useData() {
-  return useStoreData(({ refresh, setup, sessionStore }) => ({
-    refresh,
-    setup,
-    sessionKey: sessionStore.sessionKey,
-  }));
-}
-
-const DataProvider = ({ children }) => {
+const DataProvider = observer(({ children }) => {
+  const { sessionStore: { sessionKey }, setup, refresh } = useStoreData()
   const [ready, setReady] = useState(false)
-  const { setup, refresh, sessionKey } = useData()
+
+  console.log("DataProvider", sessionKey);
 
   useEffect(() => {
     const boot = async () => {
@@ -40,6 +35,6 @@ const DataProvider = ({ children }) => {
       {ready && children}
     </MainViewContainer>
   )
-}
+})
 
 export default DataProvider

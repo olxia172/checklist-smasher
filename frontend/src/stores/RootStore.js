@@ -21,13 +21,13 @@ export default class RootStore {
 
   setup = async () => {
     try {
-      const [data1, data2, data3, data4, data5] = await Promise.all([
+      const [data1, data2, data3] = await Promise.all([
         this.userStore.getCurrentUser(),
         this.checklistsStore.getChecklists(),
         this.dailyChecklistsStore.newGetMyDailyChecklists()
       ])
 
-      return data1 && data2 && data3 && data4 && data5
+      return data1 && data2 && data3
     } catch (error) {
       console.log(error);
     }
@@ -35,13 +35,13 @@ export default class RootStore {
 
   refresh = async () => {
     try {
-      const [data1, data2, data3, data4] = await Promise.all([
+      const [data1, data2, data3] = await Promise.all([
         this.userStore.getCurrentUser(),
         this.checklistsStore.getChecklists(),
         this.dailyChecklistsStore.newGetMyDailyChecklists()
       ])
 
-      return data1 && data2 && data3 && data4
+      return data1 && data2 && data3
     } catch (error) {
       console.log(error);
     }
