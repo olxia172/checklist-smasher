@@ -10,10 +10,10 @@ module Mutations
       item = Item.find(id)
 
       if done
-        item.events.create!(action: Event::ITEM_MARKED_DONE)
+        item.events.create!(action: Event::ITEM_MARKED_DONE, occured_on: date)
       else
         if item.schedule.present?
-          item.events.item_marked_done.where("created_at::date = ?", Date.parse(date)).each(&:destroy!)
+          item.events.item_marked_done.where(occured_on: Date.parse(date)).each(&:destroy!)
         else
           item.events.item_marked_done.each(&:destroy!)
         end

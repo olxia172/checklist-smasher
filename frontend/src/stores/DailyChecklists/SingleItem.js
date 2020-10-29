@@ -7,9 +7,10 @@ export default class SingleItem {
   @observable name = null
   @observable done = false
 
-  constructor(root, id, name, done) {
+  constructor(root, date, id, name, done) {
     this.root = root
     this.id = id
+    this.date = date
 
     this.update(name, done)
   }
@@ -21,19 +22,24 @@ export default class SingleItem {
 
   async toggleDone() {
     try {
-      await makePromise(
+      const { data } = await makePromise(
         execute(
           useGraphQL(this.root.sessionStore.sessionKey),
-          toggleDoneItem(this.id, !this.done)
+          toggleDoneItem(this.id, !this.done, this.date)
         )
       )
 
-      this.done = !this.done
+      if (data) {
+        this.updateFromJson(data.toggleDoneItem.item)
+      }
+
     } catch (error) {
       this.errors = error
-    } finally {
-      await this.root.refresh()
-      return true
     }
+  }
+
+  updateFromJson(json) {
+    this.done = json.done
+    this.name = json.name
   }
 }

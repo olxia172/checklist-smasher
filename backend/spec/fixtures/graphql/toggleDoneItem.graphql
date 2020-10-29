@@ -1,8 +1,8 @@
-mutation toggleDoneItem($input: ToggleDoneItemMutationInput!) {
+mutation toggleDoneItem($input: ToggleDoneItemMutationInput!, $date: String) {
   toggleDoneItem(input: $input) {
     item {
       id
-      done
+      done(date: $date)
     }
   }
 }

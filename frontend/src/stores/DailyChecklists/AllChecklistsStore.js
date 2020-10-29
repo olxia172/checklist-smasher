@@ -14,8 +14,6 @@ export default class AllChecklistsStore {
   async newGetMyDailyChecklists(newDate = toString(new Date())) {
     this.areChecklistsFetched = false
 
-    console.log("date", newDate);
-
     try {
       let checklist = this.newDailyChecklists.find(({ date }) => date === newDate)
 

@@ -21,8 +21,6 @@ const TomorrowScreen = observer(() => {
 
   const data = dailyChecklists.find(({ date }) => date === tomorrowDate()).checklists
 
-  console.log(dailyChecklists);
-
   return (
     <Container>
       <FlatList

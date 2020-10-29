@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export default function toggleDoneItem(itemId, done) {
+export default function toggleDoneItem(itemId, done, date) {
   return ({
     query: gql`
       mutation ToggleDoneItemMutation($input: ToggleDoneItemMutationInput!) {
@@ -17,6 +17,7 @@ export default function toggleDoneItem(itemId, done) {
       input: {
         id: Number(itemId),
         done: done,
+        date: date,
       }
     },
   })

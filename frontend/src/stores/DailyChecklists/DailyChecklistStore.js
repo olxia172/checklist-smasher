@@ -23,8 +23,6 @@ export default class DailyChecklistStore {
         execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(this.date))
       )
 
-      console.log("data", data);
-
       runInAction(() => {
         data.dailyChecklists.forEach(checklist => this.findOrInitializeChecklist(checklist))
       })

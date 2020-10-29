@@ -27,7 +27,7 @@ export default class SingleChecklist {
     let currentItem = this.items.find(({ id }) => id === itemId)
 
     if (!currentItem) {
-      currentItem = new SingleItem(this.root, itemId, name, done)
+      currentItem = new SingleItem(this.root, this.date, itemId, name, done)
       this.items.push(currentItem)
     } else {
       currentItem.update(name, done)
