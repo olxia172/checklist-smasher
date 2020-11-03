@@ -3,6 +3,7 @@ import { execute, makePromise } from "apollo-link";
 import { getDailyChecklists } from "../../api/queries/dailyChecklists";
 import useGraphQL from "../../hooks/useGraphQL";
 import SingleChecklist from "./SingleChecklist"
+import _difference from "lodash/difference"
 
 export default class DailyChecklistStore {
   constructor(root, date) {
@@ -24,7 +25,9 @@ export default class DailyChecklistStore {
       )
 
       runInAction(() => {
+        console.log(this.date, data.dailyChecklists.length);
         data.dailyChecklists.forEach(checklist => this.findOrInitializeChecklist(checklist))
+        this.removeStaleChecklists(data.dailyChecklists)
       })
     } catch (error) {
       this.errors = error
@@ -42,6 +45,18 @@ export default class DailyChecklistStore {
       this.checklists.push(currentChecklist)
     } else {
       currentChecklist.update(items)
+    }
+  }
+
+  removeStaleChecklists(newChecklistsData) {
+    const newChecklistsSmallerThanInitialized = newChecklistsData && newChecklistsData.length < this.checklists.length
+
+    if (newChecklistsSmallerThanInitialized) {
+      const newChecklstsIds = newChecklistsData.map(({ id }) => Number(id))
+      const currentChecklistsIds = this.checklists.map(({ id }) => Number(id))
+      const checklistsIdsToRemove = _difference(currentChecklistsIds, newChecklstsIds)
+
+      this.checklists = this.checklists.filter(({ id }) => !checklistsIdsToRemove.includes(Number(id)))
     }
   }
 }

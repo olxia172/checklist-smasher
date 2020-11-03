@@ -73,7 +73,7 @@ RSpec.describe ItemScheduler do
           subject
           schedule = enjoyer.reload.schedules.last
           sch = IceCube::Schedule.from_hash(schedule.schedule_data)
-          expect(sch.occurrences(Date.today + 7.days).length).to eq(5)
+          expect(sch.occurrences(Date.today + 7.days).length).to eq(4)
         end
       end
 

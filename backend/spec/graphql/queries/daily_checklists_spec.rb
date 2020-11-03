@@ -73,8 +73,8 @@ RSpec.describe 'dailyChecklists', type: :graphql do
           checklists = subject.dig("data", "dailyChecklists")
           checklists_names = checklists.map { |ch| ch.dig("name") }
           items_to_do = checklists.map { |ch| ch.dig("items") }.flatten.map { |item| item.dig("name") }.flatten
-          expect(checklists.size).to eq(2)
-          expect(checklists_names).to match_array(["Cleaning", "Shopping"])
+          expect(checklists.size).to eq(3)
+          expect(checklists_names).to match_array(["Cleaning", "Shopping", "Bills"])
           expect(items_to_do).to match_array(["Kitchen table", "Bread", "Butter", "Orange juice", "Cookies"])
         end
       end
@@ -92,7 +92,7 @@ RSpec.describe 'dailyChecklists', type: :graphql do
           items_to_do = checklists.map { |ch| ch.dig("items") }.flatten.map { |item| item.dig("name") }.flatten
           expect(checklists.size).to eq(3)
           expect(checklists_names).to match_array(["Cleaning", "Shopping", "Bills"])
-          expect(items_to_do).to match_array(["Kitchen table", "Dishwashing", "Bread", "Butter", "Orange juice", "Cookies", "Apartment", "Apartment renovation"])
+          expect(items_to_do).to match_array(["Kitchen table", "Dishwashing", "Bread", "Butter", "Orange juice", "Cookies", "Apartment", "Apartment renovation", "Electricity"])
         end
       end
 
@@ -108,7 +108,7 @@ RSpec.describe 'dailyChecklists', type: :graphql do
     describe "done attribute on elements by date" do
       before do
         item = Item.find_by_name("Kitchen table")
-        item.events.create!(action: Event::ITEM_MARKED_DONE)
+        item.events.create!(action: Event::ITEM_MARKED_DONE, occured_on: Date.today.to_s)
       end
 
       describe "when quering items with the same date when item was marked as done" do

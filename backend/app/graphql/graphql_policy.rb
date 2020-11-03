@@ -7,7 +7,6 @@ class GraphqlPolicy
     Types::MutationType => {
       login: ->(obj, args, ctx) { true },
       register: ->(obj, args, ctx) { true },
-      toggleDoneItem: ->(obj, args, ctx) { true },
       '*': ->(obj, args, ctx) { is_enjoyer_logged_in?(ctx) }
     }
   }

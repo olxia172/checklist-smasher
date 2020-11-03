@@ -1,5 +1,6 @@
 import { observable } from "mobx"
 import SingleItem from "./SingleItem"
+import _difference from "lodash/difference"
 
 export default class SingleChecklist {
   constructor(root, id, name, date, items) {
@@ -16,10 +17,12 @@ export default class SingleChecklist {
 
   update(items) {
     this.loadItems(items)
+    this.removeStaleItems(items)
   }
 
   loadItems(items) {
     items.forEach(item => this.findOrInitializeItem(item))
+    this.removeStaleItems(items)
   }
 
   findOrInitializeItem(item) {
@@ -31,6 +34,18 @@ export default class SingleChecklist {
       this.items.push(currentItem)
     } else {
       currentItem.update(name, done)
+    }
+  }
+
+  removeStaleItems(newItems) {
+    const newItemsSmallerThanInitialized = newItems && newItems.length < this.items.length
+
+    if (newItemsSmallerThanInitialized) {
+      const newItemsIds = newItems.map(({ id }) => Number(id))
+      const currentItemsIds = this.items.map(({ id }) => Number(id))
+      const itemsIdsToRemove = _difference(currentItemsIds, newItemsIds)
+
+      this.items = this.items.filter(({ id }) => !itemsIdsToRemove.includes(Number(id)))
     }
   }
 }

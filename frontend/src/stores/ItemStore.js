@@ -14,22 +14,6 @@ export default class ItemStore {
   @observable isLoading = false;
 
   @action.bound
-  async toggleDoneItem(itemId, doneValue) {
-    try {
-      await makePromise(
-        execute(
-          useGraphQL(this.root.sessionStore.sessionKey),
-          toggleDoneItem(itemId, doneValue)
-        )
-      )
-    } catch (error) {
-      this.errors = error
-    } finally {
-      await this.root.refresh()
-    }
-  }
-
-  @action.bound
   async scheduleItem(itemId, scheduleData) {
     try {
       const response = await makePromise(

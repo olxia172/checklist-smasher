@@ -1,7 +1,7 @@
 class Checklist < ApplicationRecord
   belongs_to :enjoyer, counter_cache: true
   belongs_to :category, optional: true
-  has_many :items
+  has_many :items, dependent: :destroy
   has_many :events, as: :eventable, dependent: :destroy
 
   validates :name, presence: true
@@ -25,7 +25,7 @@ class Checklist < ApplicationRecord
       LEFT OUTER JOIN items ON items.checklist_id = checklists.id
       LEFT OUTER JOIN occurrences ON occurrences.item_id = items.id
       LEFT OUTER JOIN schedules ON items.schedule_id = schedules.id
-      WHERE occurrences.occurs_at::date = '#{date}' OR schedules.id IS NULL
+      WHERE (occurrences.occurs_at::date = '#{date}' OR schedules.id IS NULL) AND items.id IS NOT NULL
     SQL
 
     Checklist.connection.select_all(query).to_a.map { |el| el["id"] }

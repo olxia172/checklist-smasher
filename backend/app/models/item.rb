@@ -2,7 +2,7 @@ class Item < ApplicationRecord
   belongs_to :checklist
   belongs_to :schedule, optional: true
   has_many :events, as: :eventable, dependent: :destroy
-  has_many :occurrences
+  has_many :occurrences, dependent: :destroy
 
   validates :name, presence: true
 
