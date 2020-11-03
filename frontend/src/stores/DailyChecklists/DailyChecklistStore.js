@@ -25,7 +25,6 @@ export default class DailyChecklistStore {
       )
 
       runInAction(() => {
-        console.log(this.date, data.dailyChecklists.length);
         data.dailyChecklists.forEach(checklist => this.findOrInitializeChecklist(checklist))
         this.removeStaleChecklists(data.dailyChecklists)
       })
