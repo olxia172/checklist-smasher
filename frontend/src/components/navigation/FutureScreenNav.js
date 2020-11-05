@@ -6,9 +6,9 @@ import { userHeaderStyles } from "../../constants/themeConfig";
 const Stack = createStackNavigator();
 
 const FutureScreenNav = () => (
-  <Stack.Navigator initialRouteName="Tomorrow">
+  <Stack.Navigator initialRouteName="Upcoming">
     <Stack.Screen
-      name="Tomorrow"
+      name="Upcoming"
       component={TomorrowScreen}
       options={{
         ...userHeaderStyles,

@@ -36,7 +36,7 @@ export default class SingleItem {
     } catch (error) {
       this.errors = error
     } finally {
-      await this.root.refresh()
+      await this.root.refresh(this.date)
     }
   }
 

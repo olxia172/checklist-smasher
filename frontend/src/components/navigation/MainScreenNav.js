@@ -8,10 +8,11 @@ const Stack = createStackNavigator();
 const MainScreenNav = () => (
   <Stack.Navigator initialRouteName="Home">
     <Stack.Screen
-      name="Today to smash!"
+      name="Home"
       component={HomeScreen}
       options={{
         ...userHeaderStyles,
+        title: "Today to smash!"
       }}
     />
   </Stack.Navigator>

@@ -34,16 +34,17 @@ export default class RootStore {
     }
   }
 
-  refresh = async () => {
+  refresh = async (date) => {
     try {
-      const [data1, data2, data3, data4] = await Promise.all([
+      const [data1, data2, data3, data4, data5] = await Promise.all([
         this.userStore.getCurrentUser(),
         this.checklistsStore.getChecklists(),
         this.dailyChecklistsStore.newGetMyDailyChecklists(),
-        this.dailyChecklistsStore.newGetMyDailyChecklists(tomorrowDate())
+        this.dailyChecklistsStore.newGetMyDailyChecklists(tomorrowDate()),
+        this.dailyChecklistsStore.newGetMyDailyChecklists(date)
       ])
 
-      return data1 && data2 && data3 && data4
+      return data1 && data2 && data3 && data4 && data5
     } catch (error) {
       console.log(error);
     }
