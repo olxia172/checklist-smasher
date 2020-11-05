@@ -14,15 +14,30 @@ export default class SingleChecklist {
 
   @observable items = []
   @observable isLoading = false
+  @observable doneItemsCount = 0
+  @observable itemsCount = 0
+  @observable progress = 0
 
   update(items) {
     this.loadItems(items)
     this.removeStaleItems(items)
+    this.setProgress()
   }
 
   loadItems(items) {
     items.forEach(item => this.findOrInitializeItem(item))
     this.removeStaleItems(items)
+    this.setProgress()
+  }
+
+  setProgress() {
+    const doneItems = this.items.filter(({ done }) => Boolean(done))
+
+    this.itemsCount = this.items.length
+    this.doneItemsCount = doneItems.length
+    if (this.itemsCount > 0) {
+      this.progress = this.doneItemsCount / this.itemsCount
+    }
   }
 
   findOrInitializeItem(item) {
