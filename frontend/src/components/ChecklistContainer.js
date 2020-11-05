@@ -26,6 +26,7 @@ const ChecklistContainer = observer(({
   progress,
   itemsCount,
   doneItemsCount,
+  shouldRenderDescription = false,
   shouldRenderDoneMark = false,
   shouldRenderScheduleButton = false,
   shouldRenderRemoveButton = false,
@@ -44,7 +45,7 @@ const ChecklistContainer = observer(({
       <List.Section>
         <List.Accordion
           title={name}
-          description={`${doneItemsCount}/${itemsCount}`}
+          description={shouldRenderDescription && `${doneItemsCount}/${itemsCount}`}
           left={(props) => <List.Icon {...props} icon="playlist-check" />}
           expanded={expanded}
           onPress={handlePress}

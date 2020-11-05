@@ -1,15 +1,15 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "../../screens/HomeScreen";
+import TomorrowScreen from "../../screens/TomorrowScreen";
 import { userHeaderStyles } from "../../constants/themeConfig";
 
 const Stack = createStackNavigator();
 
-const MainScreenNav = () => (
-  <Stack.Navigator initialRouteName="Home">
+const FutureScreenNav = () => (
+  <Stack.Navigator initialRouteName="Tomorrow">
     <Stack.Screen
-      name="Today to smash!"
-      component={HomeScreen}
+      name="Tomorrow"
+      component={TomorrowScreen}
       options={{
         ...userHeaderStyles,
       }}
@@ -17,4 +17,4 @@ const MainScreenNav = () => (
   </Stack.Navigator>
 );
 
-export default MainScreenNav;
+export default FutureScreenNav;

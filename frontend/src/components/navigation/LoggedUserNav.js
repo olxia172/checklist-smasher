@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import ChecklistsNav from "./ChecklistsNav";
 import MainScreenNav from "./MainScreenNav";
-import TomorrowScreen from "../../screens/TomorrowScreen"
+import FutureScreenNav from "./FutureScreenNav"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { basicColors } from "../../constants/colors"
@@ -29,7 +29,7 @@ const LoggedUserNav = () => {
       }}
       >
       <Tab.Screen name="Home" component={MainScreenNav} />
-      <Tab.Screen name="Tomorrow" component={TomorrowScreen} />
+      <Tab.Screen name="Tomorrow" component={FutureScreenNav} />
       <Tab.Screen name="Checklists" component={ChecklistsNav} />
     </Tab.Navigator>
   </NavigationContainer>

@@ -27,7 +27,7 @@ const TomorrowScreen = observer(() => {
         data={data}
         renderItem={({ item }) => (
           <View key={item.name}>
-            <ChecklistContainer {...item} shouldRenderDoneMark />
+            <ChecklistContainer {...item} shouldRenderDoneMark shouldRenderDescription />
           </View>
         )}
         keyExtractor={(item) => item.id}
