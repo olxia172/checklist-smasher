@@ -34,7 +34,7 @@ class ScheduleBuilder
   private
 
   def new_schedule
-    start = start_date ? Time.parse(start_date) : Time.now
+    start = start_date ? Time.parse(start_date).at_middle_of_day : Time.now
     @new_schedule ||= IceCube::Schedule.new(start)
   end
 
@@ -58,7 +58,7 @@ class ScheduleBuilder
       yearly: set_repeating('yearly'),
       day: set_repeating_days, #only for weekly
       day_of_month: set_day_of_months, #only for monthly
-      count: occurences_count,
+      count: set_occurrences_count,
       until: set_end_date
     }.compact
   end
@@ -73,6 +73,10 @@ class ScheduleBuilder
 
   def set_day_of_months
     repeat.to_s == MONTHLY_FREQUENCY ? days_of_month : nil
+  end
+
+  def set_occurrences_count
+    occurences_count.present? && occurences_count > 0 ? occurences_count : nil
   end
 
   def set_end_date

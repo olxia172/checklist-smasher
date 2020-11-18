@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_12_121419) do
+ActiveRecord::Schema.define(version: 2020_10_28_195706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2020_09_12_121419) do
     t.string "password_digest", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "checklists_count", default: 0, null: false
     t.index ["email"], name: "index_enjoyers_on_email"
     t.index ["name"], name: "index_enjoyers_on_name"
   end
@@ -50,6 +51,7 @@ ActiveRecord::Schema.define(version: 2020_09_12_121419) do
     t.bigint "eventable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.date "occured_on"
     t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable_type_and_eventable_id"
   end
 
@@ -61,6 +63,15 @@ ActiveRecord::Schema.define(version: 2020_09_12_121419) do
     t.bigint "schedule_id"
     t.index ["checklist_id"], name: "index_items_on_checklist_id"
     t.index ["schedule_id"], name: "index_items_on_schedule_id"
+  end
+
+  create_table "occurrences", force: :cascade do |t|
+    t.bigint "item_id"
+    t.datetime "occurs_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id", "occurs_at"], name: "index_occurrences_on_item_id_and_occurs_at", unique: true
+    t.index ["item_id"], name: "index_occurrences_on_item_id"
   end
 
   create_table "schedules", force: :cascade do |t|

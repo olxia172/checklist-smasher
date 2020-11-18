@@ -32,6 +32,7 @@ RSpec.describe ItemScheduler do
           expect { subject }.to change { Event.count }.by(1)
                          .and change { Schedule.count }.by(1)
                          .and change { item.reload.schedule_id }
+                         .and change { Occurrence.count }
         end
 
         it 'should save correct schedule' do
@@ -72,7 +73,7 @@ RSpec.describe ItemScheduler do
           subject
           schedule = enjoyer.reload.schedules.last
           sch = IceCube::Schedule.from_hash(schedule.schedule_data)
-          expect(sch.occurrences(Date.today + 7.days).length).to eq(5)
+          expect(sch.occurrences(Date.today + 7.days).length).to eq(4)
         end
       end
 

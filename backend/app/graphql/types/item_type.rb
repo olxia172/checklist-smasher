@@ -4,7 +4,9 @@ module Types
 
     field :id, ID, null: false
     field :name, String, null: false
-    field :done, Boolean, null: false
+    field :done, Boolean, null: false do
+      argument :date, String, required: false
+    end
     field :checklist, Types::ChecklistType, null: false
     field :is_scheduled, Boolean, null: false
 
@@ -12,8 +14,8 @@ module Types
       object.schedule.present?
     end
 
-    def done
-      object.done?
+    def done(date: Date.today.to_s)
+      object.done?(date)
     end
   end
 end

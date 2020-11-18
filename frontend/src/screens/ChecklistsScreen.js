@@ -1,59 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { toJS } from "mobx";
 import { View, FlatList } from "react-native";
-import { useStoreData } from "../hooks/useStoreData";
+import { useStoreData } from "../stores/storesContext";
 import ChecklistContainer from "../components/ChecklistContainer";
-import { Button, Modal, Portal, TextInput } from "react-native-paper";
+import { Button, IconButton, Modal, Portal, TextInput } from "react-native-paper";
 import { basicColors } from "../constants/colors";
 import useDialogModal from "../hooks/useDialogModal";
-import { FAB } from "react-native-paper";
-import { StyleSheet } from "react-native";
+import { observer } from 'mobx-react-lite'
 
-const styles = StyleSheet.create({
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
-  },
-});
-
-function useChecklists() {
-  return useStoreData(({ checklistsStore }) => ({
-    checklists: checklistsStore.checklists,
-    createChecklist: checklistsStore.createChecklist,
-  }));
-}
-
-function ChecklistsScreen({ navigation }) {
-  const { checklists, createChecklist } = useChecklists();
+const ChecklistsScreen = observer(({ navigation }) => {
+  const {
+    checklistsStore: {
+      checklists,
+      createChecklist,
+    }
+  } = useStoreData();
   const { isModalOpened, openDialogModal, closeDialogModal } = useDialogModal();
   const [checklistName, setChecklistName] = useState("");
 
   const data = checklists && toJS(checklists);
 
-  function handleAddChecklist() {
+  const handleAddChecklist = () => {
     createChecklist(checklistName);
     closeDialogModal();
     setChecklistName("");
   }
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          icon="plus"
+          color={basicColors.white}
+          style={{ paddingVertical: 8 }}
+          onPress={() => openDialogModal()}
+          mode="contained"
+        />
+      ),
+    });
+  }, [navigation]);
+
   return (
     <>
-      <Button
-        icon="plus"
-        color={basicColors.primaryLight}
-        style={{ paddingVertical: 8 }}
-        onPress={() => openDialogModal()}
-        mode="contained"
-      >
-        New checklist
-      </Button>
       <FlatList
         data={data}
         renderItem={({ item }) => (
           <View key={item.name}>
-            <ChecklistContainer {...item} />
+            <ChecklistContainer {...item} shouldRenderScheduleButton shouldRenderRemoveButton shouldRenderAddItemCta />
           </View>
         )}
         keyExtractor={(item) => item.id}
@@ -84,6 +77,6 @@ function ChecklistsScreen({ navigation }) {
       </Portal>
     </>
   );
-}
+})
 
 export default ChecklistsScreen;

@@ -22,7 +22,7 @@ export default function scheduleItem(itemId, scheduleData) {
             every: Number(scheduleData.every) || 1,
             days: scheduleData.days,
             endDate: toString(scheduleData.endDate),
-            occurencesCount: Number(scheduleData.occurencesCount),
+            occurencesCount: Number(scheduleData.occurencesCount) || null,
             daysOfMonth: scheduleData.daysOfMonth ? scheduleData.daysOfMonth.map((el) => Number(el)) : [],
           },
         },

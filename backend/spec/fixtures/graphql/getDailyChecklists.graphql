@@ -1,0 +1,9 @@
+query dailyChecklists($date: String!) {
+  dailyChecklists(date: $date) {
+    name,
+    items(date: $date) {
+      name
+      done(date: $date)
+    }
+  }
+}

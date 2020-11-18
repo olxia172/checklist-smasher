@@ -87,8 +87,6 @@ const ScheduleForm = ({ id, onFormSubmit }) => {
     daysOfMonth,
   }
 
-  console.log(formValues);
-
   const handleDaysOfMonthChange = (option) => setDaysOfMonth((prevDays) => {
     const index = prevDays.indexOf(option);
 

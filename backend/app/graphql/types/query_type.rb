@@ -3,11 +3,23 @@ module Types
     field :checklists,
           [Types::ChecklistType],
           null: false,
-          description: "Returns a list of checklists"
+          description: "Returns a list of checklists with all items that can be scheduled, serves as templates"
 
     def checklists
       enjoyer = context[:current_user]
       enjoyer&.checklists&.includes(:items)
+    end
+
+    field :daily_checklists,
+          [Types::ChecklistType],
+          null: false,
+          description: "Returns checklists with items to do on specific date" do
+      argument :date, String, required: true
+    end
+
+    def daily_checklists(date:)
+      enjoyer = context[:current_user]
+      enjoyer.checklists.to_do_by_date(date)
     end
 
     field :current_user, Types::EnjoyerType, null: true, description: "Returns current user"

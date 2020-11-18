@@ -10,7 +10,7 @@ RSpec.describe 'ToggleDoneItemMutation', type: :graphql do
   describe "when user logged in" do
     let!(:enjoyer) { create(:enjoyer) }
 
-    describe 'when item should be marked as done' do
+    describe 'when item has no schedule' do
       let!(:item) { create(:item) }
       let(:variables) { { input: { id: item.id, done: true } } }
 
@@ -25,6 +25,8 @@ RSpec.describe 'ToggleDoneItemMutation', type: :graphql do
       it 'should return proper response' do
         expect(subject.dig('data', 'toggleDoneItem', 'item', 'id')).to eq(item.id.to_s)
         expect(subject.dig('data', 'toggleDoneItem', 'item', 'done')).to eq(true)
+        expect(item.done?(Date.today.to_s)).to eq(true)
+        expect(item.done?(Date.tomorrow.to_s)).to eq(true)
       end
     end
 
@@ -71,6 +73,10 @@ RSpec.describe 'ToggleDoneItemMutation', type: :graphql do
         expect(subject.dig('errors').map { |err| err['message'] }).to match_array(['Sorry! Item not found'])
       end
     end
+  end
+
+  describe "when toggle done for scheduled item" do
+    
   end
 
   describe "when user is not logged in" do

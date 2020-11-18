@@ -1,63 +1,51 @@
 import React, { useEffect } from "react";
-import { View, Text } from "react-native";
-import { useStoreData } from "../hooks/useStoreData";
+import { View, Text, FlatList } from "react-native";
+import { useStoreData } from "../stores/storesContext";
 import { Title, Button } from 'react-native-paper';
 import styled from "styled-components/native";
+import ChecklistContainer from "../components/ChecklistContainer";
+import { toJS } from "mobx";
+import { toString } from "../helpers/dateHelpers"
+import { observer } from 'mobx-react-lite'
 
 const Container = styled.View`
   height: 100%;
-`
-
-const TitleWrapper = styled.View`
-  padding: 10px 0;
-  margin: 0 auto;
-`
-
-const ChecklistsButtonWrapper = styled.View`
-  margin: 20px;
 `
 
 const LogoutButtonWrapper = styled.View`
   margin-top: auto;
 `
 
-function useData() {
-  return useStoreData(({ checklistsStore, userStore }) => ({
-    checklistsCount: checklistsStore.checklistsCount,
-    getChecklists: checklistsStore.getChecklists,
-    logout: userStore.logoutUser,
-  }));
-}
-
-const HomeScreen = ({ navigation }) => {
-  const { getChecklists, checklistsCount, logout } = useData();
+const HomeScreen = observer(() => {
+  const {
+    dailyChecklistsStore: {
+      newDailyChecklists: dailyChecklists,
+    },
+    userStore: {
+      logoutUser: logout,
+    },
+  } = useStoreData();
 
   const handleLogout = () => logout();
 
-  useEffect(() => {
-    getChecklists();
-  });
+  const data = dailyChecklists.find(({ date }) => date === toString(new Date())).checklists
 
   return (
     <Container>
-      <TitleWrapper>
-        <Title>You have {checklistsCount} checklists! Check them out!</Title>
-      </TitleWrapper>
-      <ChecklistsButtonWrapper>
-        <Button
-          icon="progress-check"
-          mode="contained"
-          contentStyle={{ paddingVertical: 16 }}
-          onPress={() => navigation.navigate("Checklists")}
-        >
-          Go to checklists
-        </Button>
-      </ChecklistsButtonWrapper>
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <View key={item.name}>
+            <ChecklistContainer {...item} shouldRenderDoneMark shouldRenderDescription />
+          </View>
+        )}
+        keyExtractor={(item) => item.id}
+      />
       <LogoutButtonWrapper>
         <Button onPress={handleLogout}>Logout</Button>
       </LogoutButtonWrapper>
     </Container>
   );
-};
+});
 
 export default HomeScreen;

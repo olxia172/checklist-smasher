@@ -1,11 +1,28 @@
 const toString = (date) => {
-  if (typeof date !== "object") return "";
+  if (typeof date !== "object") return;
 
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDay();
-
-  return [year, month, day].join("-");
+  return date.toJSON().split("T")[0];
 }
 
-export { toString };
+const tomorrowDate = () => {
+  const today = new Date()
+  const tomorrow = new Date(today)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+
+  return toString(tomorrow)
+}
+
+const nextDate = (currentDate) => {
+  const nextDate = new Date(currentDate)
+  nextDate.setDate(nextDate.getDate() + 1)
+
+  return toString(nextDate)
+}
+
+const prevDate = (currentDate) => {
+  const prevDate = new Date(currentDate)
+  prevDate.setDate(prevDate.getDate() - 1)
+
+  return toString(prevDate)
+}
+export { tomorrowDate, toString, nextDate, prevDate };

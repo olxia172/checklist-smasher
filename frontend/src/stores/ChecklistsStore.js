@@ -1,42 +1,78 @@
 import { observable, action } from "mobx";
 import { execute, makePromise } from "apollo-link";
-import { getChecklists } from "../api/queries/checklists";
+import { checklists } from "../api/queries/checklists";
+import { getDailyChecklists } from "../api/queries/dailyChecklists";
 import createChecklist from "../api/mutations/createChecklist";
 import useGraphQL from "../hooks/useGraphQL";
+import { toString } from "../helpers/dateHelpers"
+import DailyChecklistStore from "./DailyChecklists/DailyChecklistStore"
 
 export default class ChecklistsStore {
   constructor(root) {
     this.root = root;
   }
 
-  @observable isLoading = false;
+  @observable areChecklistsFetched = false;
+  @observable areDailyChecklistsFetched = false;
   @observable checklists = [];
   @observable checklistsCount = 0;
   @observable errors = null;
+  @observable dailyChecklists = []
+  @observable newDailyChecklists = []
 
   @action.bound
-  getChecklists() {
-    this.isLoading = true;
-    makePromise(
-      execute(useGraphQL(this.root.sessionStore.sessionKey), getChecklists)
-    )
-      .then(({ data }) => {
-        this.checklists = data.checklists;
-        this.checklistsCount = this.checklists.length;
-        this.isLoading = false;
-      })
-      .catch((error) => (this.errors = error));
-  }
-
-  @action.bound
-  createChecklist(checklistName) {
-    makePromise(
-      execute(
-        useGraphQL(this.root.sessionStore.sessionKey),
-        createChecklist(checklistName)
+  async getChecklists() {
+    try {
+      const { data } = await makePromise(
+        execute(useGraphQL(this.root.sessionStore.sessionKey), checklists)
       )
-    )
-      .then(() => this.root.refresh())
-      .catch((error) => (this.errors = error));
+
+      this.checklists = data.checklists;
+      this.checklistsCount = this.checklists.length;
+    } catch (error) {
+      this.errors = error
+    } finally {
+      this.areChecklistsFetched = true;
+
+      return this.areChecklistsFetched
+    }
   }
+
+  @action.bound
+  async createChecklist(checklistName) {
+    try {
+      await makePromise(
+        execute(
+          useGraphQL(this.root.sessionStore.sessionKey),
+          createChecklist(checklistName)
+        )
+      )
+
+      await this.root.refresh()
+    } catch (error) {
+      this.errors = error
+    }
+  }
+
+  // getMyDailyChecklists = flow(function * (date = toString(new Date())) {
+  //   this.areDailyChecklistsFetched = false;
+  //
+  //   try {
+  //     const { data } = yield makePromise(
+  //       execute(useGraphQL(this.root.sessionStore.sessionKey), getDailyChecklists(date))
+  //     )
+  //
+  //     this.dailyChecklists[date] = data.dailyChecklists;
+  //     this.dailyChecklistsCount[date] = data.dailyChecklists.length;
+  //     this.ticker += 1
+  //     console.log('dailyChecklists.date', JSON.stringify(date))
+  //     console.log('dailyChecklists', JSON.stringify(data.dailyChecklists))
+  //   } catch (error) {
+  //     this.errors = error
+  //   } finally {
+  //     this.areDailyChecklistsFetched = true
+  //
+  //     return this.dailyChecklists[date]
+  //   }
+  // }.bind(this))
 }

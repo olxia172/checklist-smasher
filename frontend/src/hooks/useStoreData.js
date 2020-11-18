@@ -1,6 +1,6 @@
 import React from "react"
 import { useObserver } from "mobx-react-lite"
-import { storesContext} from "../stores/storesContext"
+import { storesContext } from "../stores/storesContext"
 
 export function useStoreData(selector) {
   const store = React.useContext(storesContext)

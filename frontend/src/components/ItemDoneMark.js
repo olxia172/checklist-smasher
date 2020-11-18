@@ -1,32 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Checkbox } from "react-native-paper";
 import { TouchableHighlight } from "react-native";
 import { bool, string, number, oneOfType } from "prop-types";
-import { useStoreData } from "../hooks/useStoreData";
+import { observer } from 'mobx-react-lite'
 
-function useChecklists() {
-  return useStoreData(({ itemStore }) => ({
-    toggleDoneItem: itemStore.toggleDoneItem,
-  }));
-}
-
-function ItemDoneMark({ done, id }) {
-  const { toggleDoneItem } = useChecklists();
-
-  function toggleDone() {
-    toggleDoneItem(id, !Boolean(done));
-  }
-
+const ItemDoneMark = observer(({ item }) => {
   return (
     <TouchableHighlight
       style={{ alignSelf: "center" }}
       underlayColor="#FFFFFF"
-      onPress={() => toggleDone()}
+      onPress={async () => await item.toggleDone()}
     >
-      <Checkbox.Android status={Boolean(done) ? "checked" : "unchecked"} />
+      <Checkbox.Android status={Boolean(item.done) ? "checked" : "unchecked"} />
     </TouchableHighlight>
   );
-}
+})
 
 ItemDoneMark.propTypes = {
   done: bool,

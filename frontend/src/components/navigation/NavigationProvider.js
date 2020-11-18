@@ -4,7 +4,7 @@ import GuestUserNav from "./GuestUserNav";
 import LoggedUserNav from "./LoggedUserNav";
 
 function useData() {
-  return useStoreData(({ userStore }) => ({
+  return useStoreData(({ userStore}) => ({
     isUserLoggedIn: userStore.isUserLoggedIn,
   }));
 }
